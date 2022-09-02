@@ -119,9 +119,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Classes\MySqlCommunicator.cs" />
+    <Compile Include="Classes\SqlCommunicator.cs" />
     <Compile Include="Classes\NfcReader.cs" />
-    <Compile Include="Interface\IMySqlCommunicator.cs" />
+    <Compile Include="Interface\ISqlCommunicator.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -159,6 +159,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
+    </PackageReference>
+    <PackageReference Include="MySql.Data">
+      <Version>8.0.30</Version>
     </PackageReference>
     <PackageReference Include="System.Device.Gpio">
       <Version>2.1.0</Version>
