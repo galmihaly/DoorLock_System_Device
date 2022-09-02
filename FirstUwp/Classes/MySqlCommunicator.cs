@@ -1,4 +1,5 @@
 ﻿using FirstUwp.Interfaces;
+using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace FirstUwp.Classes
     internal class MySqlCommunicator : IMySqlCommunicator
     {
         private string conStr;
+
+        MySqlConnection msc = new MySqlConnection();
         public string loginUserByCode(string code)
         {
             throw new NotImplementedException();
