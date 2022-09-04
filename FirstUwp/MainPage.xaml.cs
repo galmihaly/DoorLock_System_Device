@@ -59,6 +59,8 @@ namespace FirstUwp
         private GpioController gc = null;
         int ledPin = 18;
 
+        SqlCommunicator comm;
+
         public MainPage()
         {
             this.InitializeComponent();
@@ -80,8 +82,9 @@ namespace FirstUwp
                 gc = new GpioController();
                 gc.OpenPin(ledPin, PinMode.Output);
                 gc.Write(ledPin, PinValue.Low);
+                comm = new SqlCommunicator();
 
-                timer = new System.Timers.Timer(2000);
+                timer = new System.Timers.Timer(4000);
                 timer.Elapsed += Timer_Elapsed;
                 timer.Enabled = true;
             }
@@ -111,6 +114,8 @@ namespace FirstUwp
                 Debug.WriteLine("Beolvasott NfcId: " + nfcId);
 
                 gc.Write(ledPin, PinValue.High);
+
+                comm.loginUserByNFC_Id(nfcId);
                 
 
             }
@@ -121,6 +126,10 @@ namespace FirstUwp
                 gc.Write(ledPin, PinValue.Low);
                 
             }
+
+            
+
+            
 
         }
 

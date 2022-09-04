@@ -9,7 +9,7 @@ namespace FirstUwp.Interfaces
     internal interface ISqlCommunicator
     {
         void InitializeDb();
-        string loginUserByNFC_Id(string nfcId);
-        string loginUserByCode(string code);
+        bool loginUserByNFC_Id(string nfcId);
+        bool loginUserByCode(string code);
     }
 }
