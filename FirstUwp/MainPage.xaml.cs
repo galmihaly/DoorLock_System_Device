@@ -53,6 +53,7 @@ namespace FirstUwp
          * az nfcId, az NFC olvasó osztály(saját osztály), egy időzítő, a Raspberry Pi GPIO-ait kezelő osztály és a LED bekötéséhez használt pin definiálása  
          */
         string nfcId;
+        bool _isLoginEnable;
         //ledstring prevnfcId = "";
         private NfcReader nr = null;
         private System.Timers.Timer timer=null;
@@ -115,8 +116,13 @@ namespace FirstUwp
 
                 gc.Write(ledPin, PinValue.High);
 
-                comm.loginUserByNFC_Id(nfcId);
-                
+                if((_isLoginEnable = comm.loginUserByNFC_Id(nfcId).Equals(true)))
+                {
+                    Debug.WriteLine("Sikeres belépés!");
+                }
+                else
+                    Debug.WriteLine("Sikertelen belépés!");
+
 
             }
             else

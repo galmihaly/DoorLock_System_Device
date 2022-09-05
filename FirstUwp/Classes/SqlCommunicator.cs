@@ -12,31 +12,34 @@ namespace FirstUwp.Classes
 {
     internal class SqlCommunicator : ISqlCommunicator
     {
-        private string _dataSource = @"(LocalDB)\MSSQLLocalDB";
-        private string _attachDbFilename = @"C:\Users\misi0\Documents\Peoples.mdf";
-        private string _integratedSecurity = "true";
-        private string _connectTimeOut = @"30";
+        private string _dataSource = @"172.16.1.6\SQLEXPRESS";
+        private string _initialCatalog = "test";
+        private bool _persistSecurityInfo = true;
+        private string _userId = "sa";
+        private string _password = "0207";
+        private string _nfcId;
 
         StringBuilder sb;
-
-        string vs = @"Server=(LocalDB)\MSSQLLocalDB;Database=C:\Users\misi0\Documents\Peoples.mdf;Trusted_Connection=True;";
         
-        private string conStr;
+        string vs = @"Data Source=172.16.1.6\SQLEXPRESS;Initial Catalog=test;Persist Security Info=True;User ID=sa;Password=0207";
+        
         SqlConnection dbcon;
         SqlCommand cmd;
         SqlDataReader sdReader;
+        SqlConnectionStringBuilder scsb;
         
 
         public void InitializeDb()
         {
-            sb = new StringBuilder();
-            conStr = sb.Append("data source=").Append(_dataSource).Append(";")
-                       .Append("Database=").Append(_attachDbFilename).Append(";")
-                       .Append("trusted_connection=").Append(_integratedSecurity).Append(";")
-                       .Append("Password=").Append(_connectTimeOut).Append(";")
-                       .ToString();
+            scsb = new SqlConnectionStringBuilder();
+            scsb.DataSource = _dataSource;
+            scsb.InitialCatalog = _initialCatalog;
+            scsb.PersistSecurityInfo = _persistSecurityInfo;
+            scsb.UserID = _userId;
+            scsb.Password = _password;
 
-            dbcon = new SqlConnection(vs);
+
+            dbcon = new SqlConnection(scsb.ConnectionString);
             
         }
 
@@ -70,13 +73,23 @@ namespace FirstUwp.Classes
             {
                 dbcon.Open();
                 Debug.WriteLine("Siker");
-                string query = "Select * From Peoples";
+                string query = "Select id, Firstname, Lastname, NfcId, codeNumber from Peoples";
                 cmd = new SqlCommand(query, dbcon);
                 sdReader = cmd.ExecuteReader();
+
                 while (sdReader.Read())
                 {
-                    Debug.WriteLine(sdReader.GetString(0) + " " + sdReader.GetString(1) + " " + sdReader.GetString(2));
+                    _nfcId = sdReader.GetString(3);
+
+                    if (_nfcId.Equals(nfcId))
+                    {
+                        return true;
+                    }
+                    else
+                        return false;
                 }
+
+                
             }
             catch (Exception ex)
             {
