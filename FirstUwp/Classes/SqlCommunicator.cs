@@ -1,12 +1,15 @@
 ﻿using FirstUwp.Interfaces;
 using MySql.Data.MySqlClient;
+using Org.BouncyCastle.Utilities.Encoders;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnitsNet;
 
 namespace FirstUwp.Classes
 {
@@ -29,7 +32,7 @@ namespace FirstUwp.Classes
         SqlConnectionStringBuilder scsb;
         
 
-        public void InitializeDb()
+        public SqlConnection InitializeDb()
         {
             scsb = new SqlConnectionStringBuilder();
             scsb.DataSource = _dataSource;
@@ -38,14 +41,27 @@ namespace FirstUwp.Classes
             scsb.UserID = _userId;
             scsb.Password = _password;
 
+            var seged = new SqlConnection(scsb.ConnectionString);
 
-            dbcon = new SqlConnection(scsb.ConnectionString);
+            return seged;
             
+        }
+
+        public string GetConnectionString()
+        {
+            scsb = new SqlConnectionStringBuilder();
+            scsb.DataSource = _dataSource;
+            scsb.InitialCatalog = _initialCatalog;
+            scsb.PersistSecurityInfo = _persistSecurityInfo;
+            scsb.UserID = _userId;
+            scsb.Password = _password;
+
+            return scsb.ConnectionString;
         }
 
         public bool loginUserByCode(string code)
         {
-            InitializeDb();
+            dbcon = InitializeDb();
 
             try
             {
@@ -65,43 +81,58 @@ namespace FirstUwp.Classes
             return true;
         }
 
-        public bool loginUserByNFC_Id(string nfcId)
+        public int? loginUserByNFC_Id(string nfcId)
         {
-            InitializeDb();
-
+            int? UserId = null;
+            int? LoginId = null;
             try
             {
-                dbcon.Open();
-                Debug.WriteLine("Siker");
-                string query = "Select id, Firstname, Lastname, NfcId, codeNumber from Peoples";
-                cmd = new SqlCommand(query, dbcon);
-                sdReader = cmd.ExecuteReader();
-
-                while (sdReader.Read())
+                // connect
+                using (var conn = new SqlConnection(GetConnectionString()))
                 {
-                    _nfcId = sdReader.GetString(3);
+                    conn.Open();
 
-                    if (_nfcId.Equals(nfcId))
+                    // loading user
+                    using (var cmdSearchUser = conn.CreateCommand())
                     {
-                        return true;
-                    }
-                    else
-                        return false;
-                }
+                        cmdSearchUser.CommandType = CommandType.StoredProcedure;
+                        cmdSearchUser.CommandText = "[dbo].[GateLogin]";
+                        cmdSearchUser.Parameters.Clear();
+                        cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.Int).Value = Settings.GateId;
+                        cmdSearchUser.Parameters.Add("@CardData", System.Data.SqlDbType.NVarChar).Value = nfcId;
+                        
+                        SqlParameter userIdParameter = cmdSearchUser.Parameters.Add("@UserId", System.Data.SqlDbType.Int);
+                        SqlParameter userIdParameter2 = cmdSearchUser.Parameters.Add("@LoginId", System.Data.SqlDbType.Int);
+                        userIdParameter.Direction = ParameterDirection.Output;                        
+                        userIdParameter2.Direction = ParameterDirection.Output;                        
+                        cmdSearchUser.ExecuteNonQuery();
 
-                
+                        UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
+                        LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
+
+                        if(LoginId == 200)
+                        {
+                            Debug.WriteLine("Sikeres belépés!");
+                        }
+                        if(LoginId == 300)
+                        {
+                            Debug.WriteLine("Sikeres kilépés!");
+                        }
+
+                    }
+
+                    conn.Close();
+                }
+            }
+            catch (SqlException sex)
+            {
+                Debug.WriteLine(sex.Message);
             }
             catch (Exception ex)
             {
-                Debug.WriteLine("Nem sikerült megnyitni a MySql adatbázist!");
                 Debug.WriteLine(ex.Message);
             }
-            finally
-            {
-                dbcon.Close();
-            }
-
-            return true;
+            return UserId;
         }
     }
 }

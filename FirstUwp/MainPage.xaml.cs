@@ -29,6 +29,8 @@ using Iot.Device.FtCommon;
 using System.Device.Spi;
 using System.Device.I2c;
 using FirstUwp.Classes;
+using Windows.System.Profile;
+using FirstUwp.DataProviders;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -61,6 +63,7 @@ namespace FirstUwp
         int ledPin = 18;
 
         SqlCommunicator comm;
+        
 
         public MainPage()
         {
@@ -106,22 +109,34 @@ namespace FirstUwp
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
+            Debug.WriteLine(HardwareDataProvider.GetMacAddress());
+            Debug.WriteLine(HardwareDataProvider.GetIp());
 
             nfcId = nr.GetNfcId();
 
             if (!string.IsNullOrEmpty(nfcId))
             {
                 
-                Debug.WriteLine("Beolvasott NfcId: " + nfcId);
+                //Debug.WriteLine("Beolvasott NfcId: " + nfcId);
 
                 gc.Write(ledPin, PinValue.High);
 
-                if((_isLoginEnable = comm.loginUserByNFC_Id(nfcId).Equals(true)))
+                int? Userid = comm.loginUserByNFC_Id(nfcId);
+                if (Userid != null)
+                {
+                    Debug.WriteLine($"A(z) {(int)Userid} azonosítójú felhasználó belépett.");
+                }
+                else
+                {
+                    Debug.WriteLine($"A beolvasott kártyával nem lehet belépni!");
+                }
+
+                /*if((_isLoginEnable = comm.loginUserByNFC_Id(nfcId).Equals(true)))
                 {
                     Debug.WriteLine("Sikeres belépés!");
                 }
                 else
-                    Debug.WriteLine("Sikertelen belépés!");
+                    Debug.WriteLine("Sikertelen belépés!");*/
 
 
             }
@@ -135,7 +150,7 @@ namespace FirstUwp
 
             
 
-            
+
 
         }
 
