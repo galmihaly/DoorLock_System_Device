@@ -16,7 +16,7 @@ namespace FirstUwp.Interfaces
         /// </summary>
         /// <param name="nfcId"></param>
         /// <returns></returns>
-        int? loginUserByNFC_Id(string nfcId);
+        int?[] loginUserByNFC_Id(string nfcId);
         bool loginUserByCode(string code);
     }
 }

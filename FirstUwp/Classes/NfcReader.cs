@@ -21,23 +21,32 @@ namespace FirstUwp.Classes
          * - olvasáshoz a I2C technológiát használjuk
          */
         private Pn532 pn532 = new Pn532(I2cDevice.Create(new I2cConnectionSettings(1, Pn532.I2cDefaultAddress)));
-        private string nfcId;
+        private string nfcId = null;
 
         /*
          * - ezzel függvénnyel olvassuk ki az NFC ID-t az olvasó pufferjéből
          */
         public String GetNfcId()
         {
-            var retData =  pn532.ListPassiveTarget(MaxTarget.One, TargetBaudRate.B106kbpsTypeA);
+            
 
-            if (retData is null) return null;        
+            try
+            {
+                var retData = pn532.ListPassiveTarget(MaxTarget.One, TargetBaudRate.B106kbpsTypeA);
 
-            var decrypted = pn532.TryDecode106kbpsTypeA(retData.AsSpan().Slice(1));
+                if (retData is null) return null;
 
-            nfcId = BitConverter.ToString(decrypted.NfcId);
+                var decrypted = pn532.TryDecode106kbpsTypeA(retData.AsSpan().Slice(1));
 
-          
+                nfcId = BitConverter.ToString(decrypted.NfcId);
 
+                return nfcId;
+            }
+            catch(Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            
             return nfcId;
         }
 

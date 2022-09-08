@@ -13,8 +13,10 @@ namespace FirstUwp.DataProviders
     public static class HardwareDataProvider
     {
         private static string _MacAddress;
-        private static string _ipAddress;
-
+        /// <summary>
+        /// Ez függvény visszatériti az eszköz MAC címét!
+        /// </summary>
+        /// <returns></returns>
         public static string GetMacAddress()
         {
             foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
@@ -33,6 +35,10 @@ namespace FirstUwp.DataProviders
 
         }
 
+        /// <summary>
+        /// Ez a függvény visszatériti az eszköz IP címét!
+        /// </summary>
+        /// <returns></returns>
         public static string GetIp()
         {
             var icp = NetworkInformation.GetInternetConnectionProfile();

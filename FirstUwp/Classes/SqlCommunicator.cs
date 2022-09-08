@@ -20,15 +20,8 @@ namespace FirstUwp.Classes
         private bool _persistSecurityInfo = true;
         private string _userId = "sa";
         private string _password = "0207";
-        private string _nfcId;
-
-        StringBuilder sb;
-        
-        string vs = @"Data Source=172.16.1.6\SQLEXPRESS;Initial Catalog=test;Persist Security Info=True;User ID=sa;Password=0207";
         
         SqlConnection dbcon;
-        SqlCommand cmd;
-        SqlDataReader sdReader;
         SqlConnectionStringBuilder scsb;
         
 
@@ -81,10 +74,13 @@ namespace FirstUwp.Classes
             return true;
         }
 
-        public int? loginUserByNFC_Id(string nfcId)
+        public int?[] loginUserByNFC_Id(string nfcId)
         {
             int? UserId = null;
             int? LoginId = null;
+
+            int?[] answers = null;
+
             try
             {
                 // connect
@@ -110,14 +106,10 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
 
-                        if(LoginId == 200)
-                        {
-                            Debug.WriteLine("Sikeres belépés!");
-                        }
-                        if(LoginId == 300)
-                        {
-                            Debug.WriteLine("Sikeres kilépés!");
-                        }
+                        answers = new int?[2];
+
+                        answers[0] = UserId;
+                        answers[1] = LoginId;
 
                     }
 
@@ -132,7 +124,7 @@ namespace FirstUwp.Classes
             {
                 Debug.WriteLine(ex.Message);
             }
-            return UserId;
+            return answers;
         }
     }
 }

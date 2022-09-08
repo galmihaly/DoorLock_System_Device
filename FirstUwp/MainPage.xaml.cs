@@ -23,7 +23,6 @@ using Windows.Storage.Streams;
 using System.Threading.Tasks;
 using Windows.Devices.Enumeration;
 using System.Diagnostics;
-using Communicator;
 using Iot.Device.Card.Mifare;
 using Iot.Device.FtCommon;
 using System.Device.Spi;
@@ -55,14 +54,13 @@ namespace FirstUwp
          * az nfcId, az NFC olvasó osztály(saját osztály), egy időzítő, a Raspberry Pi GPIO-ait kezelő osztály és a LED bekötéséhez használt pin definiálása  
          */
         string nfcId;
-        bool _isLoginEnable;
-        //ledstring prevnfcId = "";
         private NfcReader nr = null;
         private System.Timers.Timer timer=null;
         private GpioController gc = null;
         int ledPin = 18;
 
         SqlCommunicator comm;
+        int?[] values;
         
 
         public MainPage()
@@ -109,36 +107,45 @@ namespace FirstUwp
 
         private void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
         {
-            Debug.WriteLine(HardwareDataProvider.GetMacAddress());
-            Debug.WriteLine(HardwareDataProvider.GetIp());
 
             nfcId = nr.GetNfcId();
 
             if (!string.IsNullOrEmpty(nfcId))
             {
                 
-                //Debug.WriteLine("Beolvasott NfcId: " + nfcId);
-
                 gc.Write(ledPin, PinValue.High);
 
-                int? Userid = comm.loginUserByNFC_Id(nfcId);
-                if (Userid != null)
+                values = comm.loginUserByNFC_Id(nfcId);
+
+                int? UserId = values[0];
+                int? LoginTypeId = values[1];
+
+                Debug.WriteLine("UserID: " + UserId);
+                Debug.WriteLine("LoginID: " + LoginTypeId);
+
+                if(LoginTypeId.HasValue)
                 {
-                    Debug.WriteLine($"A(z) {(int)Userid} azonosítójú felhasználó belépett.");
+                    if (UserId != null && LoginTypeId == 0)
+                    {
+                        Debug.WriteLine($"Üdvözöljük!");
+                    }
+                    else if (UserId != null && LoginTypeId == 300)
+                    {
+                        Debug.WriteLine($"A(z) {UserId} azonosítójú felhasználó belépett!");
+                    }
+                    else if (UserId != null && LoginTypeId == 400)
+                    {
+                        Debug.WriteLine($"A(z) {UserId} azonosítójú felhasználó kilépett!");
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"A beolvasott kártyával nem lehet belépni!");
+                    }
                 }
                 else
                 {
-                    Debug.WriteLine($"A beolvasott kártyával nem lehet belépni!");
+                    Debug.WriteLine("Ön még nem használta a rendszerünket!");
                 }
-
-                /*if((_isLoginEnable = comm.loginUserByNFC_Id(nfcId).Equals(true)))
-                {
-                    Debug.WriteLine("Sikeres belépés!");
-                }
-                else
-                    Debug.WriteLine("Sikertelen belépés!");*/
-
-
             }
             else
             {
@@ -147,13 +154,6 @@ namespace FirstUwp
                 gc.Write(ledPin, PinValue.Low);
                 
             }
-
-            
-
-
-
-        }
-
-       
+        }      
     }
 }
