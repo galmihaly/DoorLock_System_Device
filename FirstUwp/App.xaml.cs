@@ -1,5 +1,4 @@
-﻿using Communicator;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -24,7 +23,6 @@ namespace FirstUwp
     /// </summary>
     sealed partial class App : Application
     {
-        UartCommunicator _Communicator = new UartCommunicator();
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().

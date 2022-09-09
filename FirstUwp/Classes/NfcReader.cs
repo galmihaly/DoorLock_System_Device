@@ -29,7 +29,6 @@ namespace FirstUwp.Classes
         public String GetNfcId()
         {
             
-
             try
             {
                 var retData = pn532.ListPassiveTarget(MaxTarget.One, TargetBaudRate.B106kbpsTypeA);

@@ -9,7 +9,6 @@ namespace FirstUwp.Interfaces
 {
     internal interface ISqlCommunicator
     {
-        SqlConnection InitializeDb();
         /// <summary>
         /// Ez a függvény visszaadja annak a felhasználónak az azonosítóját, akit a kártya alapján belépésre jogosultnak talált a rendszer
         /// Ha nincs ilyen felhasználó, akkor értéke null

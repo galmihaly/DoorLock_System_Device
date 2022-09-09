@@ -54,13 +54,13 @@ namespace FirstUwp
          * az nfcId, az NFC olvasó osztály(saját osztály), egy időzítő, a Raspberry Pi GPIO-ait kezelő osztály és a LED bekötéséhez használt pin definiálása  
          */
         string nfcId;
-        private NfcReader nr = null;
-        private System.Timers.Timer timer=null;
-        private GpioController gc = null;
         int ledPin = 18;
+        private System.Timers.Timer timer=null;
+        int?[] values;
 
         SqlCommunicator comm;
-        int?[] values;
+        private GpioController gc = null;
+        private NfcReader nr = null;
         
 
         public MainPage()
@@ -118,22 +118,22 @@ namespace FirstUwp
                 values = comm.loginUserByNFC_Id(nfcId);
 
                 int? UserId = values[0];
-                int? LoginTypeId = values[1];
+                int? LoginId = values[1];
 
                 Debug.WriteLine("UserID: " + UserId);
-                Debug.WriteLine("LoginID: " + LoginTypeId);
+                Debug.WriteLine("LoginID: " + LoginId);
 
-                if(LoginTypeId.HasValue)
+                if(LoginId.HasValue)
                 {
-                    if (UserId != null && LoginTypeId == 0)
+                    if (UserId != null && LoginId == 0)
                     {
                         Debug.WriteLine($"Üdvözöljük!");
                     }
-                    else if (UserId != null && LoginTypeId == 300)
+                    else if (UserId != null && LoginId == 200 || UserId != null && LoginId == 201)
                     {
                         Debug.WriteLine($"A(z) {UserId} azonosítójú felhasználó belépett!");
                     }
-                    else if (UserId != null && LoginTypeId == 400)
+                    else if (UserId != null && LoginId == 300 || UserId != null && LoginId == 301)
                     {
                         Debug.WriteLine($"A(z) {UserId} azonosítójú felhasználó kilépett!");
                     }
