@@ -122,12 +122,18 @@
     <Compile Include="DataProviders\HardwareDataProvider.cs" />
     <Compile Include="Classes\SqlCommunicator.cs" />
     <Compile Include="Classes\NfcReader.cs" />
+    <Compile Include="Helpers\LocalSettingsHelper.cs" />
     <Compile Include="Interfaces\ISqlCommunicator.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Classes\Settings.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="UserControls\LoginControl.xaml.cs">
+      <DependentUpon>LoginControl.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -153,6 +159,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Styles\Styles.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\LoginControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Iot.Device.Bindings">
@@ -160,6 +174,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.14</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.8.1</Version>
     </PackageReference>
     <PackageReference Include="MySql.Data">
       <Version>8.0.30</Version>

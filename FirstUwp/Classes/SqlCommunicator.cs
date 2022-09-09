@@ -1,4 +1,5 @@
 ﻿using FirstUwp.Interfaces;
+using FirstUwp.Models;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities.Encoders;
 using System;
@@ -12,10 +13,11 @@ using System.Threading.Tasks;
 using Ubiety.Dns.Core;
 using UnitsNet;
 using Windows.System;
+using User = FirstUwp.Models.User;
 
 namespace FirstUwp.Classes
 {
-    internal class SqlCommunicator : ISqlCommunicator
+    internal class SqlCommunicator : ICommunicator
     {
 
         /// <summary>
@@ -32,7 +34,6 @@ namespace FirstUwp.Classes
 
         int? UserId = null;
         int? LoginId = null;
-        int?[] answers = null;
 
         /// <summary>
         /// Itt adjuk vissza a Connection Stringet
@@ -51,8 +52,10 @@ namespace FirstUwp.Classes
         }
 
         
-        public bool loginUserByCode(string code)
+        public User loginUserByCode(string code)
         {
+            User user = null;
+            /*UserId = null;
             try
             {
                 // connect
@@ -79,11 +82,27 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
 
-                        answers = new int?[2];
+                    }
 
-                        answers[0] = UserId;
-                        answers[1] = LoginId;
-
+                    if (UserId != null)
+                    {
+                        using (var cmdGetUser = conn.CreateCommand())
+                        {
+                            cmdGetUser.CommandType = CommandType.Text;
+                            cmdGetUser.CommandText = $"Select Id, Name, Account, Password, Barcode, Address, Active From dbo.Users Where Id = {UserId}";
+                            using (SqlDataReader reader = cmdGetUser.ExecuteReader())
+                            {
+                                user = new User();
+                                user.Id = reader.GetInt32(0);
+                                user.Name = reader.GetString(1);
+                                user.Account = reader.GetString(2);
+                                user.Password = reader.GetString(3);
+                                user.Barcode = reader.GetString(4);
+                                user.Address = reader.GetString(5);
+                                user.Active = reader.GetBoolean(6);
+                                user.LoginId = LoginId.Value;
+                            }                               
+                        }
                     }
 
                     conn.Close();
@@ -96,9 +115,9 @@ namespace FirstUwp.Classes
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-            }
+            }*/
 
-            return true;
+            return user;
         }
 
         /// <summary>
@@ -106,9 +125,10 @@ namespace FirstUwp.Classes
         /// </summary>
         /// <param name="nfcId"></param>
         /// <returns></returns>
-        public int?[] loginUserByNFC_Id(string nfcId)
+        public User loginUserByNFC_Id(string nfcId)
         {
-
+            User user = null;
+            UserId = null;
             try
             {
                 // connect
@@ -135,11 +155,34 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
 
-                        answers = new int?[2];
+                        //Debug.WriteLine("LoginId in SqlCommunicator: " + LoginId);
+                        //Debug.WriteLine("UserId in SqlCommunicator: " + UserId);
+                    }
 
-                        answers[0] = UserId;
-                        answers[1] = LoginId;
+                    if (UserId != null)
+                    {
+                        using (var cmdGetUser = conn.CreateCommand())
+                        {
+                            cmdGetUser.CommandType = CommandType.Text;
+                            cmdGetUser.CommandText = $"Select Id, Name, Account, Password, Barcode, Address, Active From dbo.Users Where Id = {UserId}";
+                            using (SqlDataReader reader = cmdGetUser.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    user = new User();
+                                    user.Id = reader.GetInt32(0);
+                                    user.Name = reader.GetString(1);
+                                    user.Account = reader.GetString(2);
+                                    user.Password = reader.GetString(3);
+                                    user.Barcode = reader.GetString(4);
+                                    user.Address = reader.GetString(5);
+                                    user.Active = reader.GetBoolean(6);
+                                    user.LoginId = Convert.ToInt32(LoginId);
 
+                                    //Debug.WriteLine("UserLoginId in SqlCommunicator: " + user.LoginId);
+                                }
+                            }
+                        }
                     }
 
                     conn.Close();
@@ -154,7 +197,7 @@ namespace FirstUwp.Classes
                 Debug.WriteLine(ex.Message);
             }
 
-            return answers;
+            return user;
         }
     }
 }

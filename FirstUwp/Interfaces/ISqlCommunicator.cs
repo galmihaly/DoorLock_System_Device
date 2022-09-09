@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FirstUwp.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FirstUwp.Interfaces
 {
-    internal interface ISqlCommunicator
+    public interface ICommunicator
     {
         /// <summary>
         /// Ez a függvény visszaadja annak a felhasználónak az azonosítóját, akit a kártya alapján belépésre jogosultnak talált a rendszer
@@ -15,7 +16,7 @@ namespace FirstUwp.Interfaces
         /// </summary>
         /// <param name="nfcId"></param>
         /// <returns></returns>
-        int?[] loginUserByNFC_Id(string nfcId);
-        bool loginUserByCode(string code);
+        User loginUserByNFC_Id(string nfcId);
+        User loginUserByCode(string code);
     }
 }

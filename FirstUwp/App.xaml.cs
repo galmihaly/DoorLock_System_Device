@@ -30,6 +30,9 @@ namespace FirstUwp
         public App()
         {
             this.InitializeComponent();
+
+            Repository.Repository.Initialize();
+
             /*this.Suspending += OnSuspending;
 
             Task.Run(async () => {

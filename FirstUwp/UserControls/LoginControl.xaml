@@ -1,0 +1,208 @@
+﻿<UserControl
+    x:Class="FirstUwp.UserControls.LoginControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:FirstUwp.UserControls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:repo="using:FirstUwp.Repository"
+    mc:Ignorable="d"
+    d:DesignHeight="400"
+    d:DesignWidth="640">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/Styles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid x:Name="LoginGrid" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80*"></RowDefinition>
+            <RowDefinition Height="10*"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="ImageColumn" Width="*"  />
+            <ColumnDefinition x:Name="PanelColumn" Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <!--<Image Grid.Column="0" Grid.RowSpan="3" x:Name="LogoImage" Source="/Assets/Logo_400x300.png" Stretch="None"/>
+        <TextBlock x:Name="versionInfo" Grid.Column="0" Grid.Row="2" Text="{x:Bind repo:Repository.VersionInfo}" Foreground="{ThemeResource SystemAccentColor}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+
+        <Rectangle Grid.Column="1" Grid.RowSpan="2"/>
+        <Pivot x:Name="PivotControl" Grid.Column="1" IsTapEnabled="True" Foreground="Wheat" Margin="0,0,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Center">
+            <!--<PivotItem x:Name="UsernameAndpassword">
+                <PivotItem.Header>
+                    <StackPanel>
+                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xE779;" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <StackPanel Width="380" VerticalAlignment="Center" Orientation="Vertical"  >
+                    <TextBlock x:Name="AccountSubtitle" HorizontalAlignment="Center" Margin="0,0,0,32"
+                               Foreground="{ThemeResource SystemAccentColor}" Style="{StaticResource SubtitleTextBlockStyle}" 
+                               Text="Kérem adja meg a nevét és jelszavát a belépéshez!" TextWrapping="WrapWholeWords"></TextBlock>
+                    <TextBlock x:Name="AccountName" HorizontalAlignment="Center" Foreground="{ThemeResource SystemAccentColor}" 
+                               Style="{StaticResource BodyTextBlockStyle}" FontSize="{StaticResource StationFontSize}" Text="Felhasználónév"></TextBlock>
+                    <TextBox x:Name="LoginAccountTextBox" FontSize="{StaticResource StationFontSize}" KeyDown="LoginAccountTextBox_KeyDown"></TextBox>
+                    <TextBlock x:Name="AccountPassword" HorizontalAlignment="Center" Margin="0,16,0,0" 
+                               Foreground="{ThemeResource SystemAccentColor}" Style="{StaticResource BodyTextBlockStyle}"
+                               FontSize="{StaticResource StationFontSize}" Text="Jelszó"></TextBlock>
+                    <PasswordBox x:Name="LoginPasswordTextBox" FontSize="{StaticResource StationFontSize}" KeyDown="LoginPasswordTextBox_KeyDown" Margin="0,0,0,32"></PasswordBox>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <Button x:Name="bnAccountLogin" Width="180" Click="AccountLogin_Click" Content="Belépés"/>
+                        <Button x:Name="bnAccountCancel" Width="180" Click="bnCancel_Click" Margin="8,0,0,0" Content="Mégsem"/>
+                    </StackPanel>
+                </StackPanel>
+            </PivotItem>-->
+
+            <PivotItem x:Name="Pin">
+                <PivotItem.Header>
+                    <StackPanel>
+                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xE75F;" />
+                    </StackPanel>
+                </PivotItem.Header>
+                <Grid x:Name="InputArea">
+                    <Grid x:Name="PinPanel" Background="Transparent" Width="300" Height="300" Visibility="Visible">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Button x:Name="Pin1" Grid.Column="0" Grid.Row="0" Style="{StaticResource PinButtonStyle}" Click="Pin1_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x2776;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin2" Grid.Column="1" Grid.Row="0" Style="{StaticResource PinButtonStyle}" Click="Pin2_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x2777;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin3" Grid.Column="2" Grid.Row="0" Style="{StaticResource PinButtonStyle}" Click="Pin3_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x2778;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin4" Grid.Column="0" Grid.Row="1" Style="{StaticResource PinButtonStyle}" Click="Pin4_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x2779;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin5" Grid.Column="1" Grid.Row="1" Style="{StaticResource PinButtonStyle}" Click="Pin5_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x277A;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin6" Grid.Column="2" Grid.Row="1" Style="{StaticResource PinButtonStyle}" Click="Pin6_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x277B;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin7" Grid.Column="0" Grid.Row="2" Style="{StaticResource PinButtonStyle}" Click="Pin7_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x277C;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin8" Grid.Column="1" Grid.Row="2" Style="{StaticResource PinButtonStyle}" Click="Pin8_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x277D;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin9" Grid.Column="2" Grid.Row="2" Style="{StaticResource PinButtonStyle}" Click="Pin9_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x277E;"/>
+                            </Button.Content>
+                        </Button>
+                        <Button x:Name="Pin0" Grid.Column="1" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="Pin0_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFontStyle}" Glyph="&#x24FF;"/>
+                            </Button.Content>
+                        </Button>
+
+                        <Button x:Name="PinBackSpace" Grid.Column="2" Grid.Row="4" Style="{StaticResource PinButtonStyle}" Click="PinBackSpace_Click" Margin="0,0,0,0">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xE750;" FontSize="36"/>
+                            </Button.Content>
+                        </Button>
+
+                        
+
+                        <StackPanel Grid.ColumnSpan="2" Grid.Row="4" Margin="0,4,0,0" VerticalAlignment="Center">
+                            <PasswordBox x:Name="PinText" Style="{StaticResource PinTextStyle}" Width="200" TabIndex="0" />
+                        </StackPanel>
+
+                        <Button x:Name="PinOk" Grid.Column="0" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="PinOk_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEC61;" Foreground="{ThemeResource SystemAccentColor}"/>
+                            </Button.Content>
+                        </Button>
+
+                        <Button x:Name="PinCancel" Grid.Column="2" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="bnCancel_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEB90;" Foreground="{ThemeResource SystemAccentColor}"/>
+                            </Button.Content>
+                        </Button>
+
+                    </Grid>
+                </Grid>
+            </PivotItem>
+
+            <PivotItem x:Name="Rfid">
+                <PivotItem.Header>
+                    <StackPanel>
+                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xE957;"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock x:Name="RfidSubtitle" HorizontalAlignment="Center" Margin="0,0,0,32" Foreground="{ThemeResource SystemAccentColor}" 
+                               Style="{StaticResource SubtitleTextBlockStyle}" Text="Kérem érintse az érzékelőhöz a kártyát!" TextWrapping="WrapWholeWords"></TextBlock>
+                    <muxc:ProgressRing x:Name="progressRingRfid" Grid.Column="1" Grid.Row="3" IsActive="True" Visibility="Visible" Margin="4,4,4,4" Width="180"/>
+                </StackPanel>
+            </PivotItem>
+
+            <!--<PivotItem x:Name="Barcode">
+                <PivotItem.Header>
+                    <StackPanel>
+                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xEE6F;"/>
+                    </StackPanel>
+                </PivotItem.Header>
+
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock x:Name="BarcodeSubtitle" HorizontalAlignment="Center" Margin="0,0,0,32" Foreground="{ThemeResource SystemAccentColor}" 
+                               Style="{StaticResource SubtitleTextBlockStyle}" Text="Kérem olvassa le a vonalkódot!" TextWrapping="WrapWholeWords"></TextBlock>
+                    <TextBox x:Name="BarcodeTextBox" Style="{StaticResource BarcodeTextStyle}" Width="220"/>
+                    --><!--<muxc:ProgressRing x:Name="progressRingBarcode" Grid.Column="1" Grid.Row="3" IsActive="True" Visibility="Visible" Margin="4,4,4,4" Width="180"/>--><!--
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
+                        <Button x:Name="BarcodeOk" Grid.Column="0" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="BarcodeOk_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEC61;" Foreground="{ThemeResource SystemAccentColor}"/>
+                            </Button.Content>
+                        </Button>
+
+                        <Button x:Name="BarcodeCancel" Grid.Column="2" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="bnCancel_Click">
+                            <Button.Content>
+                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEB90;" Foreground="{ThemeResource SystemAccentColor}"/>
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+
+            </PivotItem>-->
+        </Pivot>
+
+        <TextBlock x:Name="ErrorMessage" Grid.Row="1" Grid.Column="1" Foreground="Red" Text="A Pin kód nem megfelelő!" HorizontalAlignment="Center" FontSize="18" VerticalAlignment="Center" />
+       
+
+    </Grid>
+</UserControl>
