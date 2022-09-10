@@ -29,7 +29,6 @@ namespace FirstUwp.Classes
         private string _userId = "sa";
         private string _password = "0207";
         
-        SqlConnection dbcon;
         SqlConnectionStringBuilder scsb;
 
         int? UserId = null;

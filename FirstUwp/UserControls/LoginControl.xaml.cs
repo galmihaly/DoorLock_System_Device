@@ -52,21 +52,27 @@ namespace FirstUwp.UserControls
             //PinPanel.Height = 720;
             ErrorMessage.Text = "";
 
-            Translate();
+            /*Translate();
             if (!CanCancel)
             {
-                PinCancel.Visibility = Visibility.Collapsed;
+                //PinCancel.Visibility = Visibility.Collapsed;
                 //bnAccountCancel.Visibility = Visibility.Collapsed;
                 //BarcodeCancel.Visibility = Visibility.Collapsed;
-            }
+            }*/
 
             this.CharacterReceived += LoginControl_CharacterReceived;
             this.PivotControl.SelectionChanged += PivotControl_SelectionChanged;
 
-            int Index = -1;
+            /*int Index = -1;
             if (LocalSettingsHelper.Get("LoginIndex", ref Index))
             {
                 PivotControl.SelectedIndex = Index;
+            }*/
+
+            int Index = -1;
+            if (LocalSettingsHelper.Get("LoginIndex", ref Index))
+            {
+                PivotControl.SelectedIndex = 0;
             }
         }
 
@@ -386,7 +392,7 @@ namespace FirstUwp.UserControls
             else
             {
                 //ErrorMessage.Text = Repository.Translate("WC_MeasuringStation.Login.Pincode.Error");
-                ErrorMessage.Text = "A megadott pin kóddal a felhaznál nem léptethető be!";
+                ErrorMessage.Text = "A megadott belétető kóddal a felhasználó nem léptethető be!";
                 PinText.SelectAll();
                 PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             }
