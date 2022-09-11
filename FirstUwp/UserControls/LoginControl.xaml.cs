@@ -63,17 +63,17 @@ namespace FirstUwp.UserControls
             this.CharacterReceived += LoginControl_CharacterReceived;
             this.PivotControl.SelectionChanged += PivotControl_SelectionChanged;
 
-            /*int Index = -1;
-            if (LocalSettingsHelper.Get("LoginIndex", ref Index))
-            {
-                PivotControl.SelectedIndex = Index;
-            }*/
-
             int Index = -1;
             if (LocalSettingsHelper.Get("LoginIndex", ref Index))
             {
-                PivotControl.SelectedIndex = 0;
+                PivotControl.SelectedIndex = Index;
             }
+
+            /*int Index = -1;
+            if (LocalSettingsHelper.Get("LoginIndex", ref Index))
+            {
+                PivotControl.SelectedIndex = 0;
+            }*/
         }
 
         private void LoginControl_Loaded(object sender, RoutedEventArgs e)

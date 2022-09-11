@@ -194,7 +194,7 @@
                             x:Name="PinOk"
                             Grid.Row="3"
                             Grid.Column="0"
-                            Background="#1CD49E"
+                            Background="Green"
                             Click="PinOk_Click"
                             Style="{StaticResource PinButtonStyle}">
                             <Button.Content>
@@ -248,8 +248,8 @@
                         x:Name="progressRingRfid"
                         Grid.Row="3"
                         Grid.Column="1"
-                        Width="100"
-                        Height="100"
+                        Width="130"
+                        Height="130"
                         Margin="4,4,4,4"
                         Foreground="#1CD49E"
                         IsActive="True"
