@@ -54,7 +54,7 @@ namespace FirstUwp.Classes
         public User loginUserByCode(string code)
         {
             User user = null;
-            /*UserId = null;
+            UserId = null;
             try
             {
                 // connect
@@ -81,6 +81,9 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
 
+                        Debug.WriteLine("LC UserId: " + UserId);
+                        Debug.WriteLine("LC LoginId: " + LoginId);
+
                     }
 
                     if (UserId != null)
@@ -91,15 +94,20 @@ namespace FirstUwp.Classes
                             cmdGetUser.CommandText = $"Select Id, Name, Account, Password, Barcode, Address, Active From dbo.Users Where Id = {UserId}";
                             using (SqlDataReader reader = cmdGetUser.ExecuteReader())
                             {
-                                user = new User();
-                                user.Id = reader.GetInt32(0);
-                                user.Name = reader.GetString(1);
-                                user.Account = reader.GetString(2);
-                                user.Password = reader.GetString(3);
-                                user.Barcode = reader.GetString(4);
-                                user.Address = reader.GetString(5);
-                                user.Active = reader.GetBoolean(6);
-                                user.LoginId = LoginId.Value;
+                                while (reader.Read())
+                                {
+                                    user = new User();
+                                    user.Id = reader.GetInt32(0);
+                                    user.Name = reader.GetString(1);
+                                    user.Account = reader.GetString(2);
+                                    user.Password = reader.GetString(3);
+                                    user.Barcode = reader.GetString(4);
+                                    user.Address = reader.GetString(5);
+                                    user.Active = reader.GetBoolean(6);
+                                    user.LoginId = Convert.ToInt32(LoginId);
+
+                                    //Debug.WriteLine("UserLoginId in SqlCommunicator: " + user.LoginId);
+                                }
                             }                               
                         }
                     }
@@ -114,7 +122,7 @@ namespace FirstUwp.Classes
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-            }*/
+            }
 
             return user;
         }
@@ -154,8 +162,8 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
 
-                        //Debug.WriteLine("LoginId in SqlCommunicator: " + LoginId);
-                        //Debug.WriteLine("UserId in SqlCommunicator: " + UserId);
+                        Debug.WriteLine("LB UserId: " + UserId);
+                        Debug.WriteLine("LB LoginId: " + LoginId);
                     }
 
                     if (UserId != null)
