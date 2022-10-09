@@ -40,7 +40,6 @@ namespace FirstUwp.UserControls
 
         private DispatcherTimer _timer = new DispatcherTimer();
         private DispatcherTimer RfidTimer = new DispatcherTimer();
-        private DispatcherTimer LoggedTimer = new DispatcherTimer();
 
         public LoginControl()
         {
@@ -90,11 +89,6 @@ namespace FirstUwp.UserControls
 
             switch (PivotControl.SelectedIndex)
             {
-                //case 0:
-                //    LoginAccountTextBox.SelectAll();
-                //    LoginAccountTextBox.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                //    break;
-
                 case 0:
                     PinText.SelectAll();
                     PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
@@ -103,11 +97,6 @@ namespace FirstUwp.UserControls
                 case 1:
                     RfidTimer.Start();
                     break;
-
-                    //case 3:
-                    //    BarcodeTextBox.SelectAll();
-                    //    BarcodeTextBox.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                    //    break;
             }
 
         }
@@ -125,19 +114,11 @@ namespace FirstUwp.UserControls
             {
                 switch (PivotControl.SelectedIndex)
                 {
-                    //case 0:
-                    //    AccountLogin_Click(sender, null);
-                    //    break;
-
                     case 0:
                         PinOk_Click(sender, null);
                         break;
                     case 1:
                         break;
-
-                        //case 3:
-                        //    BarcodeOk_Click(sender, null);
-                        //    break;
                 }
             }
         }
@@ -223,7 +204,7 @@ namespace FirstUwp.UserControls
 
             
             Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
-            Debug.WriteLine("PintText tartalma: " + PinText.Password);
+            
             if (Repository.Repository.LoggedInUser != null)
             {
                 var eventHandler = this.LoginAccepted;
@@ -299,24 +280,21 @@ namespace FirstUwp.UserControls
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!");
                             Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
-                            await Task.Delay(4000);
-                            Message.Text = "";
+                            
                         }
                         else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                         {
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!");
                             Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
-                            await Task.Delay(4000);
-                            Message.Text = "";
+                            
                         }
                         else if(Repository.Repository.LoggedInUser.IsActive == false)
                         {
                             Debug.WriteLine($"Ön jelenleg inaktív állapotban van!");
                             Message.Text = $"Ön jelenleg inaktív állapotban van!";
                             Message.Foreground = new SolidColorBrush(Colors.Yellow);
-                            await Task.Delay(4000);
-                            Message.Text = "";
+                            
                         }
                     }
                     else if(Repository.Repository.LoggedInUser.IsActive.Equals(false))
@@ -324,6 +302,7 @@ namespace FirstUwp.UserControls
                         Debug.WriteLine("Az adatbázis nem elérhető!");
                         Message.Text = $"Az adatbázis nem elérhető!";
                         Message.Foreground = new SolidColorBrush(Colors.Red);
+                        
                     }
 
                     //gpioController.Write(ledPinGreen, PinValue.Low);
@@ -331,11 +310,12 @@ namespace FirstUwp.UserControls
                 //Debug miatt van csak!
                 else
                 {
-
                     Debug.WriteLine("Nincs beolvasott NFC kód!");
                     //gpioController.Write(ledPinRed, PinValue.High);
-
                 }
+
+                await Task.Delay(4000);
+                Message.Text = "";
             }
             catch (Exception ex)
             {
