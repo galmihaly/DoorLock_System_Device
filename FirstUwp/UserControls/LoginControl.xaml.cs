@@ -314,7 +314,7 @@ namespace FirstUwp.UserControls
                     //gpioController.Write(ledPinRed, PinValue.High);
                 }
 
-                await Task.Delay(4000);
+                await Task.Delay(2000);
                 Message.Text = "";
             }
             catch (Exception ex)
