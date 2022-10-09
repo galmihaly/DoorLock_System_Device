@@ -19,18 +19,22 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="LoginGrid" Background="#0E1B5A">
+    <Grid x:Name="LoginGrid">
+
+
+
         <Grid.RowDefinitions>
             <RowDefinition Height="80*" />
             <RowDefinition Height="10*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition x:Name="ImageColumn" Width="2*" />
-            <ColumnDefinition x:Name="PanelColumn" Width="3*" />
+            <ColumnDefinition x:Name="PanelColumn" Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <!--<Image Grid.Column="0" Grid.RowSpan="3" x:Name="LogoImage" Source="/Assets/Logo_400x300.png" Stretch="None"/>
-        <TextBlock x:Name="versionInfo" Grid.Column="0" Grid.Row="2" Text="{x:Bind repo:Repository.VersionInfo}" Foreground="{ThemeResource SystemAccentColor}" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
+        <Grid.Background>
+            <ImageBrush ImageSource="ms-appx:/Assets/DoorLockSystem_logo.png" />
+        </Grid.Background>
 
 
         <Pivot
@@ -41,29 +45,7 @@
             HorizontalContentAlignment="Center"
             Foreground="Wheat"
             IsTapEnabled="True">
-            <!--<PivotItem x:Name="UsernameAndpassword">
-                <PivotItem.Header>
-                    <StackPanel>
-                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xE779;" />
-                    </StackPanel>
-                </PivotItem.Header>
-                <StackPanel Width="380" VerticalAlignment="Center" Orientation="Vertical"  >
-                    <TextBlock x:Name="AccountSubtitle" HorizontalAlignment="Center" Margin="0,0,0,32"
-                               Foreground="{ThemeResource SystemAccentColor}" Style="{StaticResource SubtitleTextBlockStyle}"
-                               Text="Kérem adja meg a nevét és jelszavát a belépéshez!" TextWrapping="WrapWholeWords"></TextBlock>
-                    <TextBlock x:Name="AccountName" HorizontalAlignment="Center" Foreground="{ThemeResource SystemAccentColor}"
-                               Style="{StaticResource BodyTextBlockStyle}" FontSize="{StaticResource StationFontSize}" Text="Felhasználónév"></TextBlock>
-                    <TextBox x:Name="LoginAccountTextBox" FontSize="{StaticResource StationFontSize}" KeyDown="LoginAccountTextBox_KeyDown"></TextBox>
-                    <TextBlock x:Name="AccountPassword" HorizontalAlignment="Center" Margin="0,16,0,0"
-                               Foreground="{ThemeResource SystemAccentColor}" Style="{StaticResource BodyTextBlockStyle}"
-                               FontSize="{StaticResource StationFontSize}" Text="Jelszó"></TextBlock>
-                    <PasswordBox x:Name="LoginPasswordTextBox" FontSize="{StaticResource StationFontSize}" KeyDown="LoginPasswordTextBox_KeyDown" Margin="0,0,0,32"></PasswordBox>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button x:Name="bnAccountLogin" Width="180" Click="AccountLogin_Click" Content="Belépés"/>
-                        <Button x:Name="bnAccountCancel" Width="180" Click="bnCancel_Click" Margin="8,0,0,0" Content="Mégsem"/>
-                    </StackPanel>
-                </StackPanel>
-            </PivotItem>-->
+
 
             <PivotItem x:Name="Pin" Margin="0,20,0,0">
                 <PivotItem.Header>
@@ -165,10 +147,11 @@
                             x:Name="PinBackSpace"
                             Grid.Row="3"
                             Grid.Column="2"
+                            Width="100"
+                            Height="55"
                             Background="#C40133"
                             Click="PinBackSpace_Click"
-                            Style="{StaticResource PinButtonStyle}"
-                            Height="55" Width="100">
+                            Style="{StaticResource PinButtonStyle}">
                             <Button.Content>
                                 <FontIcon
                                     FontSize="36"
@@ -195,10 +178,11 @@
                             x:Name="PinOk"
                             Grid.Row="3"
                             Grid.Column="0"
+                            Width="100"
+                            Height="55"
                             Background="Green"
                             Click="PinOk_Click"
-                            Style="{StaticResource PinButtonStyle}"
-                            Height="55" Width="100">
+                            Style="{StaticResource PinButtonStyle}">
                             <Button.Content>
                                 <FontIcon
                                     FontSize="35"
@@ -207,23 +191,6 @@
                                     Style="{StaticResource PinFunctionFontStyle}" />
                             </Button.Content>
                         </Button>
-
-
-                        <!--<Button
-                            x:Name="PinCancel"
-                            Grid.Row="3"
-                            Grid.Column="2"
-                            Click="bnCancel_Click"
-                            Style="{StaticResource PinButtonStyle}"
-                            Visibility="Visible">
-                            <Button.Content>
-                                <FontIcon
-                                    FontSize="35"
-                                    Foreground="White"
-                                    Glyph="&#xEB90;"
-                                    Style="{StaticResource PinFunctionFontStyle}" />
-                            </Button.Content>
-                        </Button>-->
 
                     </Grid>
                 </Grid>
@@ -258,37 +225,6 @@
                         Visibility="Visible" />
                 </StackPanel>
             </PivotItem>
-
-            <!--<PivotItem x:Name="Barcode">
-                <PivotItem.Header>
-                    <StackPanel>
-                        <FontIcon Style="{StaticResource PivotIconStyle}" Glyph="&#xEE6F;"/>
-                    </StackPanel>
-                </PivotItem.Header>
-
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock x:Name="BarcodeSubtitle" HorizontalAlignment="Center" Margin="0,0,0,32" Foreground="{ThemeResource SystemAccentColor}"
-                               Style="{StaticResource SubtitleTextBlockStyle}" Text="Kérem olvassa le a vonalkódot!" TextWrapping="WrapWholeWords"></TextBlock>
-                    <TextBox x:Name="BarcodeTextBox" Style="{StaticResource BarcodeTextStyle}" Width="220"/>
-            -->
-            <!--<muxc:ProgressRing x:Name="progressRingBarcode" Grid.Column="1" Grid.Row="3" IsActive="True" Visibility="Visible" Margin="4,4,4,4" Width="180"/>-->
-            <!--
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,24,0,0">
-                        <Button x:Name="BarcodeOk" Grid.Column="0" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="BarcodeOk_Click">
-                            <Button.Content>
-                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEC61;" Foreground="{ThemeResource SystemAccentColor}"/>
-                            </Button.Content>
-                        </Button>
-
-                        <Button x:Name="BarcodeCancel" Grid.Column="2" Grid.Row="3" Style="{StaticResource PinButtonStyle}" Click="bnCancel_Click">
-                            <Button.Content>
-                                <FontIcon Style="{StaticResource PinFunctionFontStyle}" Glyph="&#xEB90;" Foreground="{ThemeResource SystemAccentColor}"/>
-                            </Button.Content>
-                        </Button>
-                    </StackPanel>
-                </StackPanel>
-
-            </PivotItem>-->
         </Pivot>
 
         <TextBlock

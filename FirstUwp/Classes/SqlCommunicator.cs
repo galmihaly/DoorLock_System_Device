@@ -23,7 +23,8 @@ namespace FirstUwp.Classes
         /// <summary>
         /// Egy darab Connection Stringet használunk az adatbázishoz
         /// </summary>
-        private string _dataSource = @"172.16.1.6\SQLEXPRESS";
+        //private string _dataSource = @"172.16.1.6\SQLEXPRESS,1433";
+        private string _dataSource = @"192.168.1.69\SQLEXPRESS,1433";
         private string _initialCatalog = "test";
         private bool _persistSecurityInfo = true;
         private string _userId = "sa";
@@ -33,6 +34,7 @@ namespace FirstUwp.Classes
 
         int? UserId = null;
         int? LoginId = null;
+        bool isActive = false;
 
         /// <summary>
         /// Itt adjuk vissza a Connection Stringet
@@ -62,7 +64,8 @@ namespace FirstUwp.Classes
                 {
                     conn.Open();
 
-                    // loading user
+                    user = new User();
+
                     using (var cmdSearchUser = conn.CreateCommand())
                     {
                         cmdSearchUser.CommandType = CommandType.StoredProcedure;
@@ -74,15 +77,20 @@ namespace FirstUwp.Classes
 
                         SqlParameter userIdParameter = cmdSearchUser.Parameters.Add("@UserId", System.Data.SqlDbType.Int);
                         SqlParameter loginIdParameter = cmdSearchUser.Parameters.Add("@LoginId", System.Data.SqlDbType.Int);
+                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Bit);
                         userIdParameter.Direction = ParameterDirection.Output;
                         loginIdParameter.Direction = ParameterDirection.Output;
+                        activeParameter.Direction = ParameterDirection.Output;
                         cmdSearchUser.ExecuteNonQuery();
 
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
+                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (bool)false : System.Convert.ToBoolean(cmdSearchUser.Parameters["@isActive"].Value);
 
-                        Debug.WriteLine("LC UserId: " + UserId);
-                        Debug.WriteLine("LC LoginId: " + LoginId);
+                        //Debug.WriteLine("LC UserId: " + UserId);
+                        //Debug.WriteLine("LC LoginId: " + LoginId);
+                        Debug.WriteLine("LC isActive: " + isActive);
+                        user.IsActive = isActive;
 
                     }
 
@@ -96,7 +104,6 @@ namespace FirstUwp.Classes
                             {
                                 while (reader.Read())
                                 {
-                                    user = new User();
                                     user.Id = reader.GetInt32(0);
                                     user.Name = reader.GetString(1);
                                     user.Account = reader.GetString(2);
@@ -118,10 +125,12 @@ namespace FirstUwp.Classes
             catch (SqlException sex)
             {
                 Debug.WriteLine(sex.Message);
+                return null;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return null;
             }
 
             return user;
@@ -143,6 +152,8 @@ namespace FirstUwp.Classes
                 {
                     conn.Open();
 
+                    user = new User();
+
                     // loading user
                     using (var cmdSearchUser = conn.CreateCommand())
                     {
@@ -152,18 +163,23 @@ namespace FirstUwp.Classes
                         cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.Int).Value = Settings.GateId;
                         cmdSearchUser.Parameters.Add("@CardData", System.Data.SqlDbType.NVarChar).Value = nfcId;
                         cmdSearchUser.Parameters.Add("@InputCodeData", System.Data.SqlDbType.NVarChar).Value = "";
-                        
+
                         SqlParameter userIdParameter = cmdSearchUser.Parameters.Add("@UserId", System.Data.SqlDbType.Int);
                         SqlParameter loginIdParameter = cmdSearchUser.Parameters.Add("@LoginId", System.Data.SqlDbType.Int);
-                        userIdParameter.Direction = ParameterDirection.Output;                        
-                        loginIdParameter.Direction = ParameterDirection.Output;                        
+                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Bit);
+                        userIdParameter.Direction = ParameterDirection.Output;
+                        loginIdParameter.Direction = ParameterDirection.Output;
+                        activeParameter.Direction = ParameterDirection.Output;
                         cmdSearchUser.ExecuteNonQuery();
 
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
+                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (bool)false : System.Convert.ToBoolean(cmdSearchUser.Parameters["@isActive"].Value);
 
-                        Debug.WriteLine("LB UserId: " + UserId);
-                        Debug.WriteLine("LB LoginId: " + LoginId);
+                        Debug.WriteLine("LC UserId: " + UserId);
+                        Debug.WriteLine("LC LoginId: " + LoginId);
+                        Debug.WriteLine("LC isActive: " + isActive);
+                        user.IsActive = isActive;
                     }
 
                     if (UserId != null)
@@ -176,7 +192,6 @@ namespace FirstUwp.Classes
                             {
                                 while (reader.Read())
                                 {
-                                    user = new User();
                                     user.Id = reader.GetInt32(0);
                                     user.Name = reader.GetString(1);
                                     user.Account = reader.GetString(2);
@@ -185,8 +200,6 @@ namespace FirstUwp.Classes
                                     user.Address = reader.GetString(5);
                                     user.Active = reader.GetBoolean(6);
                                     user.LoginId = Convert.ToInt32(LoginId);
-
-                                    //Debug.WriteLine("UserLoginId in SqlCommunicator: " + user.LoginId);
                                 }
                             }
                         }
@@ -198,10 +211,12 @@ namespace FirstUwp.Classes
             catch (SqlException sex)
             {
                 Debug.WriteLine(sex.Message);
+                return null;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return null;
             }
 
             return user;

@@ -38,7 +38,7 @@
     </Style>
 
     <Style x:Key="PivotHeaderStyle" TargetType="StackPanel">
-        <Setter Property="Background" Value="#1CD49E" />
+        <Setter Property="Background" Value="#8454D1" />
         <Setter Property="Height" Value="40" />
         <Setter Property="Width" Value="80" />
         <Setter Property="CornerRadius" Value="5" />
@@ -59,7 +59,7 @@
         <Setter Property="Width" Value="110" />
         <Setter Property="Height" Value="60" />
         <Setter Property="FontSize" Value="30" />
-        <Setter Property="Background" Value="#1CD49E" />
+        <Setter Property="Background" Value="#8454D1" />
         <Setter Property="Foreground" Value="white" />
         <Setter Property="FontWeight" Value="Bold" />
         <Setter Property="CornerRadius" Value="10" />
@@ -79,7 +79,10 @@
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontSize" Value="28" />
-        <Setter Property="Background" Value="#3153CB" />
+        <Setter Property="Background" Value="#20FFFFFF" />
+        <Setter Property="CornerRadius" Value="10" />
+        <Setter Property="BorderBrush" Value="White" />
+        <Setter Property="BorderThickness" Value="5" />
     </Style>
     <Style x:Key="BarcodeTextStyle" TargetType="TextBox">
         <Setter Property="HorizontalAlignment" Value="Center" />
@@ -136,6 +139,8 @@
         <Setter Property="Margin" Value="0,20,20,0" />
         <Setter Property="BorderBrush" Value="Black" />
     </Style>
+
+
 
     <Style x:Key="ThemeButton" TargetType="Button">
         <Setter Property="Grid.Row" Value="4" />

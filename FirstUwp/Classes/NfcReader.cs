@@ -4,6 +4,7 @@ using Iot.Device.Pn532.ListPassive;
 using System;
 using System.Collections.Generic;
 using System.Device.I2c;
+using System.Device.Spi;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -20,8 +21,9 @@ namespace FirstUwp.Classes
          * - Pn532 osztály -> ez az osztály a Microsoft hivatalos Nuget package-ben van benne(Iot.Device.Pn532)
          * - olvasáshoz a I2C technológiát használjuk
          */
-        private Pn532 pn532 = new Pn532(I2cDevice.Create(new I2cConnectionSettings(1, Pn532.I2cDefaultAddress)));
+        private Pn532 pn532 = new Pn532(SpiDevice.Create(new SpiConnectionSettings(0) { DataFlow = DataFlow.LsbFirst, Mode = SpiMode.Mode0 }), 5);
         private string nfcId = null;
+
 
         /*
          * - ezzel függvénnyel olvassuk ki az NFC ID-t az olvasó pufferjéből

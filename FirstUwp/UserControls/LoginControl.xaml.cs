@@ -9,6 +9,8 @@ using Windows.UI.Xaml.Input;
 using Windows.UI;
 using System.Drawing;
 using Windows.UI.Xaml.Media;
+using System.Threading;
+using System.Threading.Tasks;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -38,6 +40,7 @@ namespace FirstUwp.UserControls
 
         private DispatcherTimer _timer = new DispatcherTimer();
         private DispatcherTimer RfidTimer = new DispatcherTimer();
+        private DispatcherTimer LoggedTimer = new DispatcherTimer();
 
         public LoginControl()
         {
@@ -50,26 +53,10 @@ namespace FirstUwp.UserControls
 
             this.InitializeComponent();
 
-            //PinPanel.Width = 360;
-            //PinPanel.Height = 720;
             Message.Text = "";
-
-            /*Translate();
-            if (!CanCancel)
-            {
-                //PinCancel.Visibility = Visibility.Collapsed;
-                //bnAccountCancel.Visibility = Visibility.Collapsed;
-                //BarcodeCancel.Visibility = Visibility.Collapsed;
-            }*/
 
             this.CharacterReceived += LoginControl_CharacterReceived;
             this.PivotControl.SelectionChanged += PivotControl_SelectionChanged;
-
-            /*int Index = -1;
-            if (LocalSettingsHelper.Get("LoginIndex", ref Index))
-            {
-                PivotControl.SelectedIndex = Index;
-            }*/
 
             int Index = -1;
             if (LocalSettingsHelper.Get("LoginIndex", ref Index))
@@ -85,11 +72,11 @@ namespace FirstUwp.UserControls
                 nfcReader = new NfcReader();
                 gpioController = new GpioController();
 
-                gpioController.OpenPin(ledPinGreen, PinMode.Output);
+                /*gpioController.OpenPin(ledPinGreen, PinMode.Output);
                 gpioController.Write(ledPinGreen, PinValue.Low);
 
                 gpioController.OpenPin(ledPinRed, PinMode.Output);
-                gpioController.Write(ledPinRed, PinValue.Low);
+                gpioController.Write(ledPinRed, PinValue.Low);*/
             }
             catch (Exception en)
             {
@@ -153,11 +140,6 @@ namespace FirstUwp.UserControls
                         //    break;
                 }
             }
-
-            if (args.Character == 27) //27=[ESC]
-            {
-                bnCancel_Click(sender, null);
-            }
         }
 
         private void UserInteraction()
@@ -168,26 +150,6 @@ namespace FirstUwp.UserControls
                 eventHandler(this, EventArgs.Empty);
             }
         }
-
-        
-
-        
-
-        private void bnCancel_Click(object sender, RoutedEventArgs e)
-        {
-            UserInteraction();
-
-            if (CanCancel)
-            {
-                var eventHandler = this.LoginCancelled;
-
-                if (eventHandler != null)
-                {
-                    eventHandler(this, EventArgs.Empty);
-                }
-            }
-        }
-
         
         private void Input(string inputString)
         {
@@ -253,13 +215,13 @@ namespace FirstUwp.UserControls
         }
 
 
-        private void PinOk_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void PinOk_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             UserInteraction();
 
-            gpioController.Write(ledPinGreen, PinValue.High);
+            //gpioController.Write(ledPinGreen, PinValue.High);
 
-            //bool bResult = Task.Run(async () => { return await Repository.LoginByPin(PinText.Password); }).GetAwaiter().GetResult();
+            
             Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
             Debug.WriteLine("PintText tartalma: " + PinText.Password);
             if (Repository.Repository.LoggedInUser != null)
@@ -275,6 +237,8 @@ namespace FirstUwp.UserControls
                     Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!");
                     Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!";
                     Message.Foreground = new SolidColorBrush(Colors.Green);
+                    await Task.Delay(4000);
+                    Message.Text = "";
 
                 }
                 else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
@@ -282,26 +246,30 @@ namespace FirstUwp.UserControls
                     Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!");
                     Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!";
                     Message.Foreground = new SolidColorBrush(Colors.Green);
+                    await Task.Delay(4000);
+                    Message.Text = "";
                 }
                 else
                 {
-                    Debug.WriteLine($"A beolvasott kártyával nem lehet belépni!");
-                    Message.Text = $"A beolvasott kártyával nem lehet belépni!";
-                    Message.Foreground = new SolidColorBrush(Colors.Green);
+                    Debug.WriteLine($"A megadott kóddal nem lehet belépni!");
+                    Message.Text = $"A megadott kóddal nem lehet belépni!";
+                    Message.Foreground = new SolidColorBrush(Colors.Yellow);
+                    await Task.Delay(4000);
+                    Message.Text = "";
                 }
 
-                gpioController.Write(ledPinGreen, PinValue.Low);
+                //gpioController.Write(ledPinGreen, PinValue.Low);
             }
             else
             {
-                //ErrorMessage.Text = Repository.Translate("WC_MeasuringStation.Login.Pincode.Error");
-                Message.Text = "A megadott belétető kóddal a felhasználó nem léptethető be!";
+                Message.Text = "Az adatbázis nem elérhető!";
+                Message.Foreground = new SolidColorBrush(Colors.Red);
                 PinText.SelectAll();
                 PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             }
         }
 
-        private void RfidTimer_Tick(object sender, object e)
+        private async void RfidTimer_Tick(object sender, object e)
         {
             RfidTimer.Stop();
             try
@@ -311,60 +279,61 @@ namespace FirstUwp.UserControls
                 if (!string.IsNullOrEmpty(nfcId))
                 {
 
-                    gpioController.Write(ledPinGreen, PinValue.High);
-                    gpioController.Write(ledPinRed, PinValue.Low);
+                    //gpioController.Write(ledPinGreen, PinValue.High);
+                    //gpioController.Write(ledPinRed, PinValue.Low);
 
                     Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByNFC_Id(nfcId);
+
+
                     if (Repository.Repository.LoggedInUser != null)
                     {
+
                         var eventHandler = this.LoginAccepted;
                         if (eventHandler != null)
                         {
                             eventHandler(this, EventArgs.Empty);
                         }
-                    }
-                    else
-                    {
-                        //ErrorMessage.Text = Repository.Translate("WC_MeasuringStation.Login.Rfid.Error");
-                        Message.Text = "A beolvasott RFID kártya nem tartozik egyetlen aktív felhasználóhoz sem!";
-                    }
-
-
-                    if (Repository.Repository.LoggedInUser != null)
-                    {
 
                         if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
                         {
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!");
                             Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
-
+                            await Task.Delay(4000);
+                            Message.Text = "";
                         }
                         else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                         {
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!");
                             Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
+                            await Task.Delay(4000);
+                            Message.Text = "";
                         }
-                        else
+                        else if(Repository.Repository.LoggedInUser.IsActive == false)
                         {
-                            Debug.WriteLine($"A beolvasott kártyával nem lehet belépni!");
-                            Message.Text = $"A beolvasott kártyával nem lehet belépni!";
-                            Message.Foreground = new SolidColorBrush(Colors.Green);
+                            Debug.WriteLine($"Ön jelenleg inaktív állapotban van!");
+                            Message.Text = $"Ön jelenleg inaktív állapotban van!";
+                            Message.Foreground = new SolidColorBrush(Colors.Yellow);
+                            await Task.Delay(4000);
+                            Message.Text = "";
                         }
                     }
-                    else
+                    else if(Repository.Repository.LoggedInUser.IsActive.Equals(false))
                     {
-                        Debug.WriteLine("ön még nem használta a rendszerünket!");
+                        Debug.WriteLine("Az adatbázis nem elérhető!");
+                        Message.Text = $"Az adatbázis nem elérhető!";
+                        Message.Foreground = new SolidColorBrush(Colors.Red);
                     }
 
-                    gpioController.Write(ledPinGreen, PinValue.Low);
+                    //gpioController.Write(ledPinGreen, PinValue.Low);
                 }
+                //Debug miatt van csak!
                 else
                 {
 
                     Debug.WriteLine("Nincs beolvasott NFC kód!");
-                    gpioController.Write(ledPinRed, PinValue.High);
+                    //gpioController.Write(ledPinRed, PinValue.High);
 
                 }
             }
@@ -374,6 +343,7 @@ namespace FirstUwp.UserControls
             }
             finally
             {
+               
                 RfidTimer.Start();
             }
         }
