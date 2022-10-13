@@ -297,7 +297,8 @@ namespace FirstUwp.UserControls
                             
                         }
                     }
-                    else if(Repository.Repository.LoggedInUser.IsActive.Equals(false))
+                    //else if(Repository.Repository.LoggedInUser.IsActive.Equals(false))
+                    else
                     {
                         Debug.WriteLine("Az adatbázis nem elérhető!");
                         Message.Text = $"Az adatbázis nem elérhető!";
@@ -316,6 +317,7 @@ namespace FirstUwp.UserControls
 
                 await Task.Delay(2000);
                 Message.Text = "";
+                //Message.Visibility = Visibility.Collapsed;
             }
             catch (Exception ex)
             {

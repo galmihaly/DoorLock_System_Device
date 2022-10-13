@@ -23,12 +23,12 @@ namespace FirstUwp.Classes
         /// <summary>
         /// Egy darab Connection Stringet használunk az adatbázishoz
         /// </summary>
-        //private string _dataSource = @"172.16.1.6\SQLEXPRESS,1433";
-        private string _dataSource = @"192.168.1.69\SQLEXPRESS,1433";
-        private string _initialCatalog = "test";
+        private string _dataSource = @"server.logcontrol.hu,4241";
+        //private string _dataSource = @"192.168.1.69\SQLEXPRESS,1433";
+        private string _initialCatalog = "Galmihaly";
         private bool _persistSecurityInfo = true;
-        private string _userId = "sa";
-        private string _password = "0207";
+        private string _userId = "Galmihaly";
+        private string _password = "Gm2022!!!";
         
         SqlConnectionStringBuilder scsb;
 
@@ -87,8 +87,8 @@ namespace FirstUwp.Classes
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
                         isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (bool)false : System.Convert.ToBoolean(cmdSearchUser.Parameters["@isActive"].Value);
 
-                        //Debug.WriteLine("LC UserId: " + UserId);
-                        //Debug.WriteLine("LC LoginId: " + LoginId);
+                        Debug.WriteLine("LC UserId: " + UserId);
+                        Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
                         user.IsActive = isActive;
 
