@@ -17,6 +17,6 @@ namespace FirstUwp.Models
         public bool Active { get; set; }
         public int LoginId { get; set; }
 
-        public bool IsActive { get; set; }
+        public int IsActive { get; set; }
     }
 }

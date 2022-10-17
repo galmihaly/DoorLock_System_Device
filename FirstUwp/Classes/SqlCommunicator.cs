@@ -34,7 +34,7 @@ namespace FirstUwp.Classes
 
         int? UserId = null;
         int? LoginId = null;
-        bool isActive = false;
+        int? isActive = null;
 
         /// <summary>
         /// Itt adjuk vissza a Connection Stringet
@@ -57,6 +57,7 @@ namespace FirstUwp.Classes
         {
             User user = null;
             UserId = null;
+            isActive = null;
             try
             {
                 // connect
@@ -77,7 +78,7 @@ namespace FirstUwp.Classes
 
                         SqlParameter userIdParameter = cmdSearchUser.Parameters.Add("@UserId", System.Data.SqlDbType.Int);
                         SqlParameter loginIdParameter = cmdSearchUser.Parameters.Add("@LoginId", System.Data.SqlDbType.Int);
-                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Bit);
+                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Int);
                         userIdParameter.Direction = ParameterDirection.Output;
                         loginIdParameter.Direction = ParameterDirection.Output;
                         activeParameter.Direction = ParameterDirection.Output;
@@ -85,12 +86,14 @@ namespace FirstUwp.Classes
 
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
-                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (bool)false : System.Convert.ToBoolean(cmdSearchUser.Parameters["@isActive"].Value);
+                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
+                        
 
                         Debug.WriteLine("LC UserId: " + UserId);
                         Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
-                        user.IsActive = isActive;
+                        
+                        user.IsActive = (int)isActive;
 
                     }
 
@@ -174,12 +177,12 @@ namespace FirstUwp.Classes
 
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
-                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (bool)false : System.Convert.ToBoolean(cmdSearchUser.Parameters["@isActive"].Value);
+                        isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
 
                         Debug.WriteLine("LC UserId: " + UserId);
                         Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
-                        user.IsActive = isActive;
+                        user.IsActive = (int)isActive;
                     }
 
                     if (UserId != null)

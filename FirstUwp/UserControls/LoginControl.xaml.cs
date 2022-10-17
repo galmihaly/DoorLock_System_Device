@@ -230,23 +230,36 @@ namespace FirstUwp.UserControls
                     await Task.Delay(4000);
                     Message.Text = "";
                 }
-                else
+                else if (Repository.Repository.LoggedInUser.IsActive == 0)
                 {
-                    Debug.WriteLine($"A megadott kóddal nem lehet belépni!");
-                    Message.Text = $"A megadott kóddal nem lehet belépni!";
+                    Debug.WriteLine($"Ön jelenleg inaktív állapotban van!");
+                    Message.Text = $"Ön jelenleg inaktív állapotban van!";
                     Message.Foreground = new SolidColorBrush(Colors.Yellow);
-                    await Task.Delay(4000);
-                    Message.Text = "";
+
+                }
+                else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                {
+                    Debug.WriteLine($"Nincs ilyen beregisztrált kód!");
+                    Message.Text = $"Nincs ilyen beregisztrált kód!";
+                    Message.Foreground = new SolidColorBrush(Colors.Yellow);
+
                 }
 
                 //gpioController.Write(ledPinGreen, PinValue.Low);
+
+                PinText.Password = "";
+                PinText.SelectAll();
+                PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
             }
             else
             {
                 Message.Text = "Az adatbázis nem elérhető!";
                 Message.Foreground = new SolidColorBrush(Colors.Red);
+                PinText.Password = "";
                 PinText.SelectAll();
                 PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
+                await Task.Delay(4000);
+                Message.Text = "";
             }
         }
 
@@ -289,12 +302,19 @@ namespace FirstUwp.UserControls
                             Message.Foreground = new SolidColorBrush(Colors.Green);
                             
                         }
-                        else if(Repository.Repository.LoggedInUser.IsActive == false)
+                        else if(Repository.Repository.LoggedInUser.IsActive == 0)
                         {
                             Debug.WriteLine($"Ön jelenleg inaktív állapotban van!");
                             Message.Text = $"Ön jelenleg inaktív állapotban van!";
                             Message.Foreground = new SolidColorBrush(Colors.Yellow);
                             
+                        }
+                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                        {
+                            Debug.WriteLine($"Nincs ilyen beregisztrált kód!");
+                            Message.Text = $"Nincs ilyen beregisztrált kód!";
+                            Message.Foreground = new SolidColorBrush(Colors.Yellow);
+
                         }
                     }
                     //else if(Repository.Repository.LoggedInUser.IsActive.Equals(false))
