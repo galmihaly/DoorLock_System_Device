@@ -169,7 +169,7 @@ namespace FirstUwp.Classes
 
                         SqlParameter userIdParameter = cmdSearchUser.Parameters.Add("@UserId", System.Data.SqlDbType.Int);
                         SqlParameter loginIdParameter = cmdSearchUser.Parameters.Add("@LoginId", System.Data.SqlDbType.Int);
-                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Bit);
+                        SqlParameter activeParameter = cmdSearchUser.Parameters.Add("@isActive", System.Data.SqlDbType.Int);
                         userIdParameter.Direction = ParameterDirection.Output;
                         loginIdParameter.Direction = ParameterDirection.Output;
                         activeParameter.Direction = ParameterDirection.Output;
@@ -179,9 +179,9 @@ namespace FirstUwp.Classes
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
                         isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
 
-                        Debug.WriteLine("LC UserId: " + UserId);
-                        Debug.WriteLine("LC LoginId: " + LoginId);
-                        Debug.WriteLine("LC isActive: " + isActive);
+                        Debug.WriteLine("LN UserId: " + UserId);
+                        Debug.WriteLine("LN LoginId: " + LoginId);
+                        Debug.WriteLine("LN isActive: " + isActive);
                         user.IsActive = (int)isActive;
                     }
 

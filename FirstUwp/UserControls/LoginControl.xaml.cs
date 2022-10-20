@@ -26,17 +26,11 @@ namespace FirstUwp.UserControls
         public event EventHandler LoginUserInteraction;
 
         string nfcId;
-        int ledPinGreen = 18;
-        int ledPinRed = 10;
+        bool isEnabled = false;
+        int voicePin = 23;
 
         private GpioController gpioController = null;
         private NfcReader nfcReader = null;
-
-
-        /// <summary>
-        /// Azt állítja be, hogy a 'Mégsem" gomb alklamzható-e
-        /// </summary>
-        public bool CanCancel { get; set; } = false;
 
         private DispatcherTimer _timer = new DispatcherTimer();
         private DispatcherTimer RfidTimer = new DispatcherTimer();
@@ -60,7 +54,7 @@ namespace FirstUwp.UserControls
             int Index = -1;
             if (LocalSettingsHelper.Get("LoginIndex", ref Index))
             {
-                PivotControl.SelectedIndex = 0;
+                PivotControl.SelectedIndex = 0; //index kell ide majd
             }
         }
 
@@ -71,11 +65,10 @@ namespace FirstUwp.UserControls
                 nfcReader = new NfcReader();
                 gpioController = new GpioController();
 
-                /*gpioController.OpenPin(ledPinGreen, PinMode.Output);
-                gpioController.Write(ledPinGreen, PinValue.Low);
+                gpioController.OpenPin(voicePin, PinMode.Output);
+                gpioController.Write(voicePin, PinValue.Low);
 
-                gpioController.OpenPin(ledPinRed, PinMode.Output);
-                gpioController.Write(ledPinRed, PinValue.Low);*/
+                
             }
             catch (Exception en)
             {
@@ -200,8 +193,6 @@ namespace FirstUwp.UserControls
         {
             UserInteraction();
 
-            //gpioController.Write(ledPinGreen, PinValue.High);
-
             
             Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
             
@@ -215,19 +206,39 @@ namespace FirstUwp.UserControls
 
                 if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
                 {
-                    Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!");
-                    Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!";
+                    Debug.WriteLine($"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!");
+                    Message.Text = $"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!";
                     Message.Foreground = new SolidColorBrush(Colors.Green);
-                    await Task.Delay(4000);
+
+
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+                    await Task.Delay(500);
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+
+                    await Task.Delay(2000);
                     Message.Text = "";
 
                 }
                 else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                 {
                     Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!");
-                    Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!";
+                    Message.Text = $"Viszont látásra {Repository.Repository.LoggedInUser.Name}!";
                     Message.Foreground = new SolidColorBrush(Colors.Green);
-                    await Task.Delay(4000);
+
+
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+                    await Task.Delay(500);
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+
+                    await Task.Delay(2000);
                     Message.Text = "";
                 }
                 else if (Repository.Repository.LoggedInUser.IsActive == 0)
@@ -236,12 +247,24 @@ namespace FirstUwp.UserControls
                     Message.Text = $"Ön jelenleg inaktív állapotban van!";
                     Message.Foreground = new SolidColorBrush(Colors.Yellow);
 
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+
+                    await Task.Delay(2750);
+
                 }
                 else if (Repository.Repository.LoggedInUser.IsActive == -1)
                 {
                     Debug.WriteLine($"Nincs ilyen beregisztrált kód!");
                     Message.Text = $"Nincs ilyen beregisztrált kód!";
                     Message.Foreground = new SolidColorBrush(Colors.Yellow);
+
+                    gpioController.Write(voicePin, PinValue.High);
+                    await Task.Delay(250);
+                    gpioController.Write(voicePin, PinValue.Low);
+
+                    await Task.Delay(2750);
 
                 }
 
@@ -258,7 +281,7 @@ namespace FirstUwp.UserControls
                 PinText.Password = "";
                 PinText.SelectAll();
                 PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
-                await Task.Delay(4000);
+                await Task.Delay(3000);
                 Message.Text = "";
             }
         }
@@ -291,14 +314,14 @@ namespace FirstUwp.UserControls
                         if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
                         {
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!");
-                            Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó belépett!";
+                            Message.Text = $"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
                             
                         }
                         else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                         {
                             Debug.WriteLine($"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!");
-                            Message.Text = $"A(z) {Repository.Repository.LoggedInUser.Id} azonosítójú felhasználó kilépett!";
+                            Message.Text = $"Viszont látásra {Repository.Repository.LoggedInUser.Name}!";
                             Message.Foreground = new SolidColorBrush(Colors.Green);
                             
                         }
@@ -335,7 +358,7 @@ namespace FirstUwp.UserControls
                     //gpioController.Write(ledPinRed, PinValue.High);
                 }
 
-                await Task.Delay(2000);
+                await Task.Delay(3000);
                 Message.Text = "";
                 //Message.Visibility = Visibility.Collapsed;
             }
