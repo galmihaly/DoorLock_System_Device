@@ -19,12 +19,7 @@ namespace FirstUwp.Classes
 {
     internal class SqlCommunicator : ICommunicator
     {
-
-        /// <summary>
-        /// Egy darab Connection Stringet használunk az adatbázishoz
-        /// </summary>
         private string _dataSource = @"server.logcontrol.hu,4241";
-        //private string _dataSource = @"192.168.1.69\SQLEXPRESS,1433";
         private string _initialCatalog = "Galmihaly";
         private bool _persistSecurityInfo = true;
         private string _userId = "Galmihaly";
@@ -36,10 +31,6 @@ namespace FirstUwp.Classes
         int? LoginId = null;
         int? isActive = null;
 
-        /// <summary>
-        /// Itt adjuk vissza a Connection Stringet
-        /// </summary>
-        /// <returns></returns>
         public string GetConnectionString()
         {
             scsb = new SqlConnectionStringBuilder();
@@ -52,12 +43,9 @@ namespace FirstUwp.Classes
             return scsb.ConnectionString;
         }
 
-        
         public User loginUserByCode(string code)
         {
             User user = null;
-            UserId = null;
-            isActive = null;
             try
             {
                 // connect
@@ -87,14 +75,12 @@ namespace FirstUwp.Classes
                         UserId = cmdSearchUser.Parameters["@UserId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@UserId"].Value);
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
                         isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
-                        
 
                         Debug.WriteLine("LC UserId: " + UserId);
                         Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
                         
                         user.IsActive = (int)isActive;
-
                     }
 
                     if (UserId != null)
@@ -115,13 +101,10 @@ namespace FirstUwp.Classes
                                     user.Address = reader.GetString(5);
                                     user.Active = reader.GetBoolean(6);
                                     user.LoginId = Convert.ToInt32(LoginId);
-
-                                    //Debug.WriteLine("UserLoginId in SqlCommunicator: " + user.LoginId);
                                 }
                             }                               
                         }
                     }
-
                     conn.Close();
                 }
             }
@@ -139,25 +122,16 @@ namespace FirstUwp.Classes
             return user;
         }
 
-        /// <summary>
-        /// Itt csatlakozunk az SQL adatbázishoz és hívjuk meg a tárolt eljárást (Stored Procedure)
-        /// </summary>
-        /// <param name="nfcId"></param>
-        /// <returns></returns>
         public User loginUserByNFC_Id(string nfcId)
         {
             User user = null;
-            UserId = null;
             try
             {
-                // connect
                 using (var conn = new SqlConnection(GetConnectionString()))
                 {
                     conn.Open();
-
                     user = new User();
 
-                    // loading user
                     using (var cmdSearchUser = conn.CreateCommand())
                     {
                         cmdSearchUser.CommandType = CommandType.StoredProcedure;
@@ -207,7 +181,6 @@ namespace FirstUwp.Classes
                             }
                         }
                     }
-
                     conn.Close();
                 }
             }
@@ -221,7 +194,6 @@ namespace FirstUwp.Classes
                 Debug.WriteLine(ex.Message);
                 return null;
             }
-
             return user;
         }
     }

@@ -20,9 +20,6 @@
     </UserControl.Resources>
 
     <Grid x:Name="LoginGrid">
-
-
-
         <Grid.RowDefinitions>
             <RowDefinition Height="80*" />
             <RowDefinition Height="10*" />
@@ -35,7 +32,6 @@
         <Grid.Background>
             <ImageBrush ImageSource="ms-appx:/Assets/DoorLockSystem_logo.png" />
         </Grid.Background>
-
 
         <Pivot
             x:Name="PivotControl"
@@ -160,8 +156,6 @@
                             </Button.Content>
                         </Button>
 
-
-
                         <StackPanel
                             Grid.Row="4"
                             Grid.ColumnSpan="3"
@@ -191,7 +185,6 @@
                                     Style="{StaticResource PinFunctionFontStyle}" />
                             </Button.Content>
                         </Button>
-
                     </Grid>
                 </Grid>
             </PivotItem>
@@ -207,22 +200,13 @@
                     <TextBlock
                         x:Name="RfidSubtitle"
                         Margin="0,0,0,32"
-                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
                         FontWeight="Bold"
+                        FontSize="21"
                         Foreground="#1CD49E"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="Kérem érintse az érzékelőhöz a kártyát!"
                         TextWrapping="WrapWholeWords" />
-                    <muxc:ProgressRing
-                        x:Name="progressRingRfid"
-                        Grid.Row="3"
-                        Grid.Column="1"
-                        Width="130"
-                        Height="130"
-                        Margin="4,4,4,4"
-                        Foreground="#1CD49E"
-                        IsActive="True"
-                        Visibility="Visible" />
                 </StackPanel>
             </PivotItem>
         </Pivot>
@@ -236,7 +220,5 @@
             FontWeight="Bold"
             Foreground="#C40133">
             <Run Text="A belépési " /><Run Text="kód nem megfelelő!" /></TextBlock>
-
-
     </Grid>
 </UserControl>

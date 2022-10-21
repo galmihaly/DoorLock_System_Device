@@ -41,11 +41,11 @@ namespace FirstUwp.Classes
 
                 nfcId = BitConverter.ToString(decrypted.NfcId);
 
-                return nfcId;
             }
             catch(Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return null;
             }
             
             return nfcId;
