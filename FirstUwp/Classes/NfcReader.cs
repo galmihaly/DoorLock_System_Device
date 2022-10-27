@@ -50,7 +50,5 @@ namespace FirstUwp.Classes
             
             return nfcId;
         }
-
-
     }
 }

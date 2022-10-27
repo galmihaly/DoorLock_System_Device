@@ -123,6 +123,7 @@
     <Compile Include="Classes\SqlCommunicator.cs" />
     <Compile Include="Classes\NfcReader.cs" />
     <Compile Include="Helpers\LocalSettingsHelper.cs" />
+    <Compile Include="Helpers\VoiceHelper.cs" />
     <Compile Include="Interfaces\ISqlCommunicator.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
