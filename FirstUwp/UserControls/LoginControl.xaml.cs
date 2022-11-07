@@ -212,8 +212,6 @@ namespace FirstUwp.UserControls
                 if (InternetConnectionProfile != null)
                 {
 
-                    event1.message = "Beléptetés...";
-
                     Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
 
                     if (Repository.Repository.LoggedInUser != null)
