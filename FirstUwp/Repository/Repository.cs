@@ -26,13 +26,13 @@ namespace FirstUwp.Repository
 
         public static User LoggedInUser = null;
 
-        public static string VersionInfo
+        /*public static string VersionInfo
         {
             get
             {
                 return "1.0";
             }
-        }
+        }*/
 
 
         public static bool Initialize()

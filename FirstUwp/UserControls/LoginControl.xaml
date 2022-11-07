@@ -201,8 +201,8 @@
                         x:Name="RfidSubtitle"
                         Margin="0,0,0,32"
                         VerticalAlignment="Center"
-                        FontWeight="Bold"
                         FontSize="21"
+                        FontWeight="Bold"
                         Foreground="#1CD49E"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="Kérem érintse az érzékelőhöz a kártyát!"
@@ -218,7 +218,6 @@
             HorizontalAlignment="Center"
             FontSize="25"
             FontWeight="Bold"
-            Foreground="#C40133">
-            <Run Text="A belépési " /><Run Text="kód nem megfelelő!" /></TextBlock>
+            Foreground="#C40133" />
     </Grid>
 </UserControl>

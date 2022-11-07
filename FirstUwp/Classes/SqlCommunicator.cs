@@ -76,9 +76,11 @@ namespace FirstUwp.Classes
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
                         isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
 
+                        /*
                         Debug.WriteLine("LC UserId: " + UserId);
                         Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
+                        */
                         
                         user.IsActive = (int)isActive;
                     }
@@ -153,9 +155,12 @@ namespace FirstUwp.Classes
                         LoginId = cmdSearchUser.Parameters["@LoginId"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@LoginId"].Value);
                         isActive = cmdSearchUser.Parameters["@isActive"].Value == DBNull.Value ? (int?)null : System.Convert.ToInt32(cmdSearchUser.Parameters["@isActive"].Value);
 
+                        /*
                         Debug.WriteLine("LN UserId: " + UserId);
                         Debug.WriteLine("LN LoginId: " + LoginId);
                         Debug.WriteLine("LN isActive: " + isActive);
+                        */
+
                         user.IsActive = (int)isActive;
                     }
 
@@ -194,6 +199,7 @@ namespace FirstUwp.Classes
                 Debug.WriteLine(ex.Message);
                 return null;
             }
+
             return user;
         }
     }

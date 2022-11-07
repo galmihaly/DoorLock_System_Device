@@ -1,8 +1,11 @@
 ﻿using FirstUwp.Classes;
 using FirstUwp.Helpers;
+using FirstUwp.Models;
 using System;
 using System.Device.Gpio;
 using System.Diagnostics;
+using System.Net;
+using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -14,26 +17,39 @@ namespace FirstUwp.UserControls
 {
     public sealed partial class LoginControl : UserControl
     {
+
         public event EventHandler LoginAccepted;
         public event EventHandler LoginCancelled;
         public event EventHandler LoginUserInteraction;
         public event EventHandler result;
 
-        private string nfcId;
-        bool isEnabled = true;
-        int voicePin = 23;
-
-        private GpioController gpioController = null;
-        private NfcReader nfcReader = null;
-
         private DispatcherTimer RfidTimer = new DispatcherTimer();
         private DispatcherTimer AlertTimer = new DispatcherTimer();
         private DispatcherTimer SoonTimer = new DispatcherTimer();
 
+        private EventHandler<Data1> handler1;
+        private EventHandler<Data2> handler2;
 
+        private GpioController gpioController = null;
+        private NfcReader nfcReader = null;
+
+        private string nfcId;
+        private int voicePin = 23;
+        private bool soon;
+        private bool isEnabled = true;
+        private string secondMessage;
+        private Windows.UI.Color secondColor;
+
+        private object _lock = new object();
+        
         public LoginControl()
         {
             this.Loaded += LoginControl_Loaded;
+
+            this.InitializeComponent();
+
+            this.CharacterReceived += LoginControl_CharacterReceived;
+            this.PivotControl.SelectionChanged += PivotControl_SelectionChanged;
 
             RfidTimer.Interval = TimeSpan.FromMilliseconds(200);
             RfidTimer.Tick += RfidTimer_Tick;
@@ -44,20 +60,15 @@ namespace FirstUwp.UserControls
             SoonTimer.Interval = TimeSpan.FromSeconds(5);
             SoonTimer.Tick += SoonTimer_Tick;
 
-            this.InitializeComponent();
-
             Message.Text = "";
-
-            this.CharacterReceived += LoginControl_CharacterReceived;
-            this.PivotControl.SelectionChanged += PivotControl_SelectionChanged;
 
             int Index = -1;
             if (LocalSettingsHelper.Get("LoginIndex", ref Index))
             {
-                PivotControl.SelectedIndex = Index; //index kell ide majd
+                PivotControl.SelectedIndex = Index;
             }
 
-            handler += OnResult_Event1;
+            handler1 += OnResult_Event1;
             handler2 += OnResult_Event2;
         }
 
@@ -70,7 +81,6 @@ namespace FirstUwp.UserControls
 
                 gpioController.OpenPin(voicePin, PinMode.Output);
                 gpioController.Write(voicePin, PinValue.Low);
-
             }
             catch (Exception en)
             {
@@ -83,8 +93,10 @@ namespace FirstUwp.UserControls
             Pivot p = sender as Pivot;
             PivotItem pi = p?.SelectedItem as PivotItem;
             if (pi == null) return;
+
             if (pi.Name.ToLower() == "rfid")
             {
+                soon = false;
                 RfidTimer.Start();
             }
             else if (pi.Name.ToLower() == "pin")
@@ -99,7 +111,7 @@ namespace FirstUwp.UserControls
 
         private void LoginControl_CharacterReceived(UIElement sender, CharacterReceivedRoutedEventArgs args)
         {
-            if (args.Character == 13) // Enter
+            if (args.Character == 13)
             {
                 switch (PivotControl.SelectedIndex)
                 {
@@ -184,64 +196,192 @@ namespace FirstUwp.UserControls
             PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
         }
 
-
         private void PinOk_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            var event1 = new Model1();
+            var event1 = new Data1();
 
             isEnabled = false;
             UserInteraction();
 
             if (PinText.Password != "")
             {
-                event1.message = "Beléptetés...";
-                Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
-
-                if (Repository.Repository.LoggedInUser != null)
+                if (NetworkInterface.GetIsNetworkAvailable())
                 {
-                    event1.isUser = true;
 
-                    if (this.LoginAccepted != null) this.LoginAccepted(this, EventArgs.Empty);
+                    event1.message = "Beléptetés...";
 
-                    if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
+                    Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByCode(PinText.Password);
+
+                    if (Repository.Repository.LoggedInUser != null)
                     {
-                        Alert($"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
-                        VoiceHelper.voiceAction_1(gpioController);
+                        event1.isUser = true;
+
+                        if (this.LoginAccepted != null) this.LoginAccepted(this, EventArgs.Empty);
+
+                        if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
+                        {
+                            Alert($"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
+                            VoiceHelper.voiceAction_1(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
+                        {
+                            Alert($"Viszont látásra {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
+                            VoiceHelper.voiceAction_1(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.IsActive == 0)
+                        {
+                            Alert($"Ön jelenleg inaktív állapotban van!", Colors.Yellow);
+                            VoiceHelper.voiceAction_3(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                        {
+                            Alert($"Nincs ilyen beregisztrált kód!", Colors.Yellow);
+                            VoiceHelper.voiceAction_3(gpioController);
+                        }
+                        
+                        PinText.Password = "";
+                        PinText.SelectAll();
+                        PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
                     }
-                    else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
+                    else
                     {
-                        Alert($"Viszont látásra {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
-                        VoiceHelper.voiceAction_1(gpioController);
-                    }
-                    else if (Repository.Repository.LoggedInUser.IsActive == 0)
-                    {
-                        Alert($"Ön jelenleg inaktív állapotban van!", Colors.Yellow);
+                        Alert("Az adatbázis nem elérhető!", Colors.Red);
                         VoiceHelper.voiceAction_3(gpioController);
+                        PinText.Password = "";
+                        PinText.SelectAll();
+                        PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
                     }
-                    else if (Repository.Repository.LoggedInUser.IsActive == -1)
-                    {
-                        Alert($"Nincs ilyen beregisztrált kód!", Colors.Yellow);
-                        VoiceHelper.voiceAction_3(gpioController);
-                    }
-                    //AlertClr();
-                    PinText.Password = "";
-                    PinText.SelectAll();
-                    PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
                 }
                 else
                 {
-                    Alert("Az adatbázis nem elérhető!", Colors.Red);
-                    VoiceHelper.voiceAction_3(gpioController);
+                    Alert("Nincs internet elérés !!!", Colors.Red);
+                    SoonTimer.Start();
+                    soon = true;
+
                     PinText.Password = "";
                     PinText.SelectAll();
                     PinText.Focus(Windows.UI.Xaml.FocusState.Programmatic);
                 }
+
             }
             isEnabled = true;
         }
 
-        private string secondMessage;
-        private Windows.UI.Color secondColor;
+        private void RfidTimer_Tick(object sender, object e)
+        {
+            if (soon == true) return;
+            if (NetworkInterface.GetIsNetworkAvailable()) 
+            {
+                try
+                {
+                    soon = true;
+                    Alert("Kérem a kártyáját!", Colors.Yellow, false);
+
+                    Task.Run(() => EvaulationOfResults());
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex.Message);
+                }
+            }
+            else
+            {
+                Alert("Nincs internet elérés!", Colors.Red);
+            }
+        }
+
+        private void EvaulationOfResults()
+        {
+            lock (_lock)
+            {
+                var event1 = new Data1();
+                var event2 = new Data2();
+
+                nfcId = nfcReader.GetNfcId();
+
+                if (!string.IsNullOrEmpty(nfcId))
+                {
+                    event1.isNfcId = true;
+
+                    event2.message = "Beléptetés...";
+                    event2.color = Colors.Yellow;
+                    handler2?.Invoke(this, event2);
+
+                    Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByNFC_Id(nfcId);
+
+                    if (Repository.Repository.LoggedInUser != null)
+                    {
+                        event1.isUser = true;
+                        if (this.LoginAccepted != null) this.LoginAccepted(this, EventArgs.Empty);
+
+                        if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
+                        {
+                            event1.message = $"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!";
+                            event1.color = Colors.Green;
+
+                            VoiceHelper.voiceAction_1(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
+                        {
+                            event1.message = $"Viszont látásra {Repository.Repository.LoggedInUser.Name}!";
+                            event1.color = Colors.Green;
+
+                            VoiceHelper.voiceAction_1(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.IsActive == 0)
+                        {
+                            event1.message = $"Ön jelenleg inaktív állapotban van!";
+                            event1.color = Colors.Yellow;
+
+                            VoiceHelper.voiceAction_3(gpioController);
+                        }
+                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                        {
+                            event1.message = $"Nincs ilyen beregisztrált NFC kód!";
+                            event1.color = Colors.Yellow;
+
+                            VoiceHelper.voiceAction_3(gpioController);
+                        }
+                    }
+                    else
+                    {
+                        event1.color = Colors.Red;
+                        event1.message = $"Az adatbázis nem elérhető!";
+                    }
+
+                    handler1?.Invoke(this, event1);
+                }
+            }
+        }
+
+        public void OnResult_Event1(object sender, Data1 e)
+        {
+            if (!e.isUser)
+            {
+                Debug.WriteLine("Nincs Felhasználó!");
+                soon = false;
+            }
+            else 
+            {
+                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => SoonTimer.Start());
+            }
+
+            if (!string.IsNullOrEmpty(e.message))
+            {
+                Alert(e.message, e.color, true, "Kérem várjon!", Colors.Yellow);
+            }
+        }
+
+        public void OnResult_Event2(object sender, Data2 e)
+        {
+            Alert(e.message, e.color, false);
+        }
+
+        private void SoonTimer_Tick(object sender, object e)
+        {
+            SoonTimer.Stop();
+            soon = false;
+        }
 
         private void Alert(string msg, Windows.UI.Color color, bool autoHide = true, string msg2 = null, Windows.UI.Color? color2 = null)
         {
@@ -270,9 +410,7 @@ namespace FirstUwp.UserControls
             {
                 AlertClr();
             }
-            // ha van másodlagos message, pl. kérem, várjon, itt azt kell kitenni: Message.Text = msg;
-            // törölni kell
-            // egyébként AlertClr
+
         }
 
         private void AlertClr()
@@ -281,151 +419,6 @@ namespace FirstUwp.UserControls
             {
                 Message.Text = "";
             });
-        }
-
-        
-
-        
-        private object _lock = new object();
-
-        public class Model2
-        {
-            public string message;            
-        }
-
-        EventHandler<Model2> handler2;
-
-        public class Model1
-        {
-            public string message;
-            public Windows.UI.Color color;
-            public bool isNfcId;
-            public bool isUser;
-        }
-
-        EventHandler<Model1> handler;
-
-        bool soon;
-
-        private void RfidTimer_Tick(object sender, object e)
-        {
-            if (soon == true) return;
-            try
-            {
-                soon = true;
-                Alert("Kérem a kártyáját!", Colors.Yellow, false);
-
-                Task.Run(() => EvaulationOfResults());
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-        }
-
-        private void EvaulationOfResults()
-        {
-            lock (_lock)
-            {
-                var event1 = new Model1();
-                var event2 = new Model2();
-                // beolvasás...
-                nfcId = nfcReader.GetNfcId();
-                // beolvasva...               
-                if (!string.IsNullOrEmpty(nfcId))
-                {
-                   
-                    event1.isNfcId = true;
-
-                    event2.message = "Beléptetés...";
-                    handler2?.Invoke(this, event2);
-
-                    Repository.Repository.LoggedInUser = Repository.Repository.Communicator.loginUserByNFC_Id(nfcId);
-
-                    if (Repository.Repository.LoggedInUser != null)
-                    {
-                        event1.isUser = true;
-                        if (this.LoginAccepted != null) this.LoginAccepted(this, EventArgs.Empty);
-
-                        if (Repository.Repository.LoggedInUser.LoginId == 200 || Repository.Repository.LoggedInUser.LoginId == 201)
-                        {
-                            event1.message = $"Üdvözöllek {Repository.Repository.LoggedInUser.Name}!";
-                            event1.color = Colors.Green;
-
-                            VoiceHelper.voiceAction_1(gpioController);
-                        }
-                        else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
-                        {
-                            event1.message = $"Viszont látásra {Repository.Repository.LoggedInUser.Name}!";
-                            event1.color = Colors.Green;
-
-                            VoiceHelper.voiceAction_1(gpioController);
-                        }
-                        else if (Repository.Repository.LoggedInUser.IsActive == 0)
-                        {
-                            event1.message = $"Ön jelenleg inaktív állapotban van!";
-                            event1.color =Colors.Yellow;
-
-                            VoiceHelper.voiceAction_3(gpioController);
-                        }
-                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
-                        {
-                            event1.message = $"Nincs ilyen beregisztrált kód!";
-                            event1.color = Colors.Yellow;
-
-                            VoiceHelper.voiceAction_3(gpioController);
-                        }
-                    }
-                    else
-                    {
-                        event1.color = Colors.Red;
-                        event1.message = $"Az adatbázis nem elérhető!";             // nem volt user          
-                    }
-                }              
-               
-                handler?.Invoke(this, event1);
-            }
-        }
-
-        public void OnResult_Event1(object sender, Model1 e)
-        {
-#if DEBUG
-            if (!e.isNfcId) Debug.WriteLine("Nincs beolvasott NFC kód!");
-            if (!e.isUser)
-            {
-                Debug.WriteLine("Nincs Felhasználó!");
-                soon = false;
-            }
-            else 
-            {
-                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => SoonTimer.Start());
-            }
-#endif
-            if (!string.IsNullOrEmpty(e.message))
-            {
-                Alert(e.message, e.color, true, "Kérem várjon!", Colors.Yellow);
-            }
-
-            /*if (e.isUser)
-            {
-                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => SoonTimer.Start());
-            }
-            else
-            {
-                soon = false;
-            }*/
-        }
-
-        public void OnResult_Event2(object sender, Model2 e)
-        {
-            Alert(e.message, Colors.Yellow, false);
-        }
-
-        private void SoonTimer_Tick(object sender, object e)
-        {
-            //Alert("Kérem várjon!", Colors.Yellow, false);
-            SoonTimer.Stop();
-            soon = false;
         }
     }
 }
