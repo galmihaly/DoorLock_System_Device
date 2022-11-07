@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.NetworkInformation;
 using System.Threading.Tasks;
+using Windows.Networking.Connectivity;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -41,7 +42,8 @@ namespace FirstUwp.UserControls
         private Windows.UI.Color secondColor;
 
         private object _lock = new object();
-        
+        private object _lock2 = new object();
+
         public LoginControl()
         {
             this.Loaded += LoginControl_Loaded;
@@ -205,7 +207,9 @@ namespace FirstUwp.UserControls
 
             if (PinText.Password != "")
             {
-                if (NetworkInterface.GetIsNetworkAvailable())
+                ConnectionProfile InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+                if (InternetConnectionProfile != null)
                 {
 
                     event1.message = "Beléptetés...";
@@ -254,9 +258,7 @@ namespace FirstUwp.UserControls
                 }
                 else
                 {
-                    Alert("Nincs internet elérés !!!", Colors.Red);
-                    SoonTimer.Start();
-                    soon = true;
+                    Alert("Nincs internet elérés !!!", Colors.Red);                  
 
                     PinText.Password = "";
                     PinText.SelectAll();
@@ -267,17 +269,24 @@ namespace FirstUwp.UserControls
             isEnabled = true;
         }
 
+        private static int i=1;
         private void RfidTimer_Tick(object sender, object e)
         {
-            if (soon == true) return;
-            if (NetworkInterface.GetIsNetworkAvailable()) 
+
+            ConnectionProfile InternetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
+
+            if (InternetConnectionProfile != null)
             {
+                if (soon == true) return;
+
                 try
                 {
-                    soon = true;
-                    Alert("Kérem a kártyáját!", Colors.Yellow, false);
+                    lock (_lock2) //  amíg a szál fut, nem hozunk rá újabb szálakat
+                    {
+                        Alert("Kérem a kártyáját!", Colors.Yellow, false);
 
-                    Task.Run(() => EvaulationOfResults());
+                        Task.Run(() => EvaulationOfResults());
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -292,11 +301,15 @@ namespace FirstUwp.UserControls
 
         private void EvaulationOfResults()
         {
-            lock (_lock)
+            lock (_lock) // amíg van _lock, (_lock != null) addig a blokkba nem lép be
             {
+                // ez ha van nfc, ha nincs, beállítjuk. ha van nfc, a timer törli, ha nincs nfc, mi töröljük
+                soon = true;
                 var event1 = new Data1();
                 var event2 = new Data2();
 
+                // ha nincs nfc id (nincs kártya tartva) akkor 9 sec várakozás van - blokkolja a kódot
+                // ez az ui-t nem blokkolja, mert külön szálon van
                 nfcId = nfcReader.GetNfcId();
 
                 if (!string.IsNullOrEmpty(nfcId))
@@ -349,7 +362,12 @@ namespace FirstUwp.UserControls
                         event1.message = $"Az adatbázis nem elérhető!";
                     }
 
+                    // csak akkor sül el, ha van nfc
                     handler1?.Invoke(this, event1);
+                }
+                else
+                {
+                    soon = false;
                 }
             }
         }
@@ -358,17 +376,21 @@ namespace FirstUwp.UserControls
         {
             if (!e.isUser)
             {
-                Debug.WriteLine("Nincs Felhasználó!");
+               // Debug.WriteLine("Nincs Felhasználó!");
                 soon = false;
             }
             else 
             {
-                _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => SoonTimer.Start());
+              _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => 
+              {
+                  //Debug.WriteLine("SoonTimer.Start");
+                  SoonTimer.Start(); 
+              });             
             }
 
             if (!string.IsNullOrEmpty(e.message))
             {
-                Alert(e.message, e.color, true, "Kérem várjon!", Colors.Yellow);
+                Alert(e.message, e.color, true, "Kérem várjon!", Colors.Yellow);               
             }
         }
 
@@ -379,6 +401,7 @@ namespace FirstUwp.UserControls
 
         private void SoonTimer_Tick(object sender, object e)
         {
+            //Debug.WriteLine("SoonTimer_Tick");
             SoonTimer.Stop();
             soon = false;
         }
