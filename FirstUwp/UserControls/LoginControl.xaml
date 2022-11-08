@@ -202,17 +202,6 @@
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Orientation="Vertical">
-                    <!--<TextBlock
-                        x:Name="RfidSubtitle"
-                        Margin="0,0,0,32"
-                        VerticalAlignment="Center"
-                        FontSize="21"
-                        FontWeight="Bold"
-                        Foreground="#1CD49E"
-                        Style="{StaticResource SubtitleTextBlockStyle}"
-                        Text="Kérem érintse az érzékelőhöz a kártyát!"
-                        TextWrapping="WrapWholeWords" />-->
-
                     <StackPanel.Background>
                         <ImageBrush ImageSource="ms-appx:/Assets/NFC_reader_place.png" />
                     </StackPanel.Background>
