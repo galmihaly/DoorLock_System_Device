@@ -196,8 +196,13 @@
                     </StackPanel>
                 </PivotItem.Header>
 
-                <StackPanel VerticalAlignment="Center" Orientation="Vertical">
-                    <TextBlock
+                <StackPanel
+                    Width="300px"
+                    Height="238px"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+                    <!--<TextBlock
                         x:Name="RfidSubtitle"
                         Margin="0,0,0,32"
                         VerticalAlignment="Center"
@@ -206,7 +211,11 @@
                         Foreground="#1CD49E"
                         Style="{StaticResource SubtitleTextBlockStyle}"
                         Text="Kérem érintse az érzékelőhöz a kártyát!"
-                        TextWrapping="WrapWholeWords" />
+                        TextWrapping="WrapWholeWords" />-->
+
+                    <StackPanel.Background>
+                        <ImageBrush ImageSource="ms-appx:/Assets/NFC_reader_place.png" />
+                    </StackPanel.Background>
                 </StackPanel>
             </PivotItem>
         </Pivot>
