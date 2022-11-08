@@ -4,8 +4,6 @@ using FirstUwp.Models;
 using System;
 using System.Device.Gpio;
 using System.Diagnostics;
-using System.Net;
-using System.Net.NetworkInformation;
 using System.Threading.Tasks;
 using Windows.Networking.Connectivity;
 using Windows.UI;
@@ -233,12 +231,12 @@ namespace FirstUwp.UserControls
                         else if (Repository.Repository.LoggedInUser.IsActive == 0)
                         {
                             Alert($"Ön jelenleg inaktív állapotban van!", Colors.Yellow);
-                            VoiceHelper.voiceAction_3(gpioController);
+                            VoiceHelper.voiceAction_2(gpioController);
                         }
                         else if (Repository.Repository.LoggedInUser.IsActive == -1)
                         {
                             Alert($"Nincs ilyen beregisztrált kód!", Colors.Yellow);
-                            VoiceHelper.voiceAction_3(gpioController);
+                            VoiceHelper.voiceAction_2(gpioController);
                         }
                         
                         PinText.Password = "";
@@ -344,20 +342,21 @@ namespace FirstUwp.UserControls
                             event1.message = $"Ön jelenleg inaktív állapotban van!";
                             event1.color = Colors.Yellow;
 
-                            VoiceHelper.voiceAction_3(gpioController);
+                            VoiceHelper.voiceAction_2(gpioController);
                         }
                         else if (Repository.Repository.LoggedInUser.IsActive == -1)
                         {
                             event1.message = $"Nincs ilyen beregisztrált NFC kód!";
                             event1.color = Colors.Yellow;
 
-                            VoiceHelper.voiceAction_3(gpioController);
+                            VoiceHelper.voiceAction_2(gpioController);
                         }
                     }
                     else
                     {
                         event1.color = Colors.Red;
                         event1.message = $"Az adatbázis nem elérhető!";
+                        VoiceHelper.voiceAction_3(gpioController);
                     }
 
                     // csak akkor sül el, ha van nfc

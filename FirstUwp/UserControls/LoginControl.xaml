@@ -225,8 +225,9 @@
             Grid.Row="1"
             Grid.ColumnSpan="2"
             HorizontalAlignment="Center"
+            FontFamily="Arial Rounded MT Bold"
             FontSize="25"
             FontWeight="Bold"
-            Foreground="#C40133" />
+            Foreground="Red" />
     </Grid>
 </UserControl>
