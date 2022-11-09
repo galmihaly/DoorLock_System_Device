@@ -82,7 +82,7 @@ namespace FirstUwp.Classes
                         Debug.WriteLine("LC isActive: " + isActive);
                         */
                         
-                        user.IsActive = (int)isActive;
+                        user.messageCode = (int)isActive;
                     }
 
                     if (UserId != null)
@@ -90,18 +90,13 @@ namespace FirstUwp.Classes
                         using (var cmdGetUser = conn.CreateCommand())
                         {
                             cmdGetUser.CommandType = CommandType.Text;
-                            cmdGetUser.CommandText = $"Select Id, Name, Account, Password, Barcode, Address, Active From dbo.Users Where Id = {UserId}";
+                            cmdGetUser.CommandText = $"Select Name, Active From dbo.Users Where Id = {UserId}";
                             using (SqlDataReader reader = cmdGetUser.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    user.Id = reader.GetInt32(0);
-                                    user.Name = reader.GetString(1);
-                                    user.Account = reader.GetString(2);
-                                    user.Password = reader.GetString(3);
-                                    user.Barcode = reader.GetString(4);
-                                    user.Address = reader.GetString(5);
-                                    user.Active = reader.GetBoolean(6);
+                                    user.Name = reader.GetString(0);
+                                    user.Active = reader.GetBoolean(1);
                                     user.LoginId = Convert.ToInt32(LoginId);
                                 }
                             }                               
@@ -161,7 +156,7 @@ namespace FirstUwp.Classes
                         Debug.WriteLine("LN isActive: " + isActive);
                         */
 
-                        user.IsActive = (int)isActive;
+                        user.messageCode = (int)isActive;
                     }
 
                     if (UserId != null)
@@ -169,18 +164,13 @@ namespace FirstUwp.Classes
                         using (var cmdGetUser = conn.CreateCommand())
                         {
                             cmdGetUser.CommandType = CommandType.Text;
-                            cmdGetUser.CommandText = $"Select Id, Name, Account, Password, Barcode, Address, Active From dbo.Users Where Id = {UserId}";
+                            cmdGetUser.CommandText = $"Select Name, Active From dbo.Users Where Id = {UserId}";
                             using (SqlDataReader reader = cmdGetUser.ExecuteReader())
                             {
                                 while (reader.Read())
                                 {
-                                    user.Id = reader.GetInt32(0);
-                                    user.Name = reader.GetString(1);
-                                    user.Account = reader.GetString(2);
-                                    user.Password = reader.GetString(3);
-                                    user.Barcode = reader.GetString(4);
-                                    user.Address = reader.GetString(5);
-                                    user.Active = reader.GetBoolean(6);
+                                    user.Name = reader.GetString(0);
+                                    user.Active = reader.GetBoolean(1);
                                     user.LoginId = Convert.ToInt32(LoginId);
                                 }
                             }

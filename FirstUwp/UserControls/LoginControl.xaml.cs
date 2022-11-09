@@ -228,12 +228,12 @@ namespace FirstUwp.UserControls
                             Alert($"Viszont látásra {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
                             VoiceHelper.voiceAction_1(gpioController);
                         }
-                        else if (Repository.Repository.LoggedInUser.IsActive == 0)
+                        else if (Repository.Repository.LoggedInUser.messageCode == 0)
                         {
                             Alert($"Ön jelenleg inaktív állapotban van!", Colors.Yellow);
                             VoiceHelper.voiceAction_2(gpioController);
                         }
-                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                        else if (Repository.Repository.LoggedInUser.messageCode == -1)
                         {
                             Alert($"Nincs ilyen beregisztrált kód!", Colors.Yellow);
                             VoiceHelper.voiceAction_2(gpioController);
@@ -245,7 +245,7 @@ namespace FirstUwp.UserControls
                     }
                     else
                     {
-                        Alert("Az adatbázis nem elérhető!", Colors.Red);
+                        Alert("Az adatbázissal kapcsolatban hiba lépett fel!", Colors.Red);
                         VoiceHelper.voiceAction_3(gpioController);
                         PinText.Password = "";
                         PinText.SelectAll();
@@ -337,14 +337,14 @@ namespace FirstUwp.UserControls
 
                             VoiceHelper.voiceAction_1(gpioController);
                         }
-                        else if (Repository.Repository.LoggedInUser.IsActive == 0)
+                        else if (Repository.Repository.LoggedInUser.messageCode == 0)
                         {
                             event1.message = $"Ön jelenleg inaktív állapotban van!";
                             event1.color = Colors.Yellow;
 
                             VoiceHelper.voiceAction_2(gpioController);
                         }
-                        else if (Repository.Repository.LoggedInUser.IsActive == -1)
+                        else if (Repository.Repository.LoggedInUser.messageCode == -1)
                         {
                             event1.message = $"Nincs ilyen beregisztrált NFC kód!";
                             event1.color = Colors.Yellow;
@@ -355,7 +355,7 @@ namespace FirstUwp.UserControls
                     else
                     {
                         event1.color = Colors.Red;
-                        event1.message = $"Az adatbázis nem elérhető!";
+                        event1.message = $"Az adatbázissal kapcsolatban hiba lépett fel!";
                         VoiceHelper.voiceAction_3(gpioController);
                     }
 
