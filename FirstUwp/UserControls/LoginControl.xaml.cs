@@ -225,7 +225,7 @@ namespace FirstUwp.UserControls
                         }
                         else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                         {
-                            Alert($"Viszont látásra {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
+                            Alert($"Viszontlátásra {Repository.Repository.LoggedInUser.Name}!", Colors.Green);
                             VoiceHelper.voiceAction_1(gpioController);
                         }
                         else if (Repository.Repository.LoggedInUser.messageCode == 0)
@@ -332,7 +332,7 @@ namespace FirstUwp.UserControls
                         }
                         else if (Repository.Repository.LoggedInUser.LoginId == 300 || Repository.Repository.LoggedInUser.LoginId == 301)
                         {
-                            event1.message = $"Viszont látásra {Repository.Repository.LoggedInUser.Name}!";
+                            event1.message = $"Viszontlátásra {Repository.Repository.LoggedInUser.Name}!";
                             event1.color = Colors.Green;
 
                             VoiceHelper.voiceAction_1(gpioController);
