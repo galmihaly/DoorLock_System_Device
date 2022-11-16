@@ -1,4 +1,5 @@
-﻿using FirstUwp.Interfaces;
+﻿using FirstUwp.Helpers;
+using FirstUwp.Interfaces;
 using FirstUwp.Models;
 using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Utilities.Encoders;
@@ -55,12 +56,15 @@ namespace FirstUwp.Classes
 
                     user = new User();
 
+                    string macAddress2 = LocalSettingsHelper.MACAddressConnectWidthCharachter(LocalSettingsHelper.GetMacAddress(), '-');
+                    Debug.WriteLine("MAC address:" + macAddress2);
+
                     using (var cmdSearchUser = conn.CreateCommand())
                     {
                         cmdSearchUser.CommandType = CommandType.StoredProcedure;
                         cmdSearchUser.CommandText = "[dbo].[GateLogin]";
                         cmdSearchUser.Parameters.Clear();
-                        cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.Int).Value = Settings.GateId;
+                        cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.NVarChar).Value = macAddress2;
                         cmdSearchUser.Parameters.Add("@CardData", System.Data.SqlDbType.NVarChar).Value = "";
                         cmdSearchUser.Parameters.Add("@InputCodeData", System.Data.SqlDbType.NVarChar).Value = code;
 
@@ -81,7 +85,8 @@ namespace FirstUwp.Classes
                         Debug.WriteLine("LC LoginId: " + LoginId);
                         Debug.WriteLine("LC isActive: " + isActive);
                         */
-                        
+
+
                         user.messageCode = (int)isActive;
                     }
 
@@ -129,12 +134,15 @@ namespace FirstUwp.Classes
                     conn.Open();
                     user = new User();
 
+                    string macAddress2 = LocalSettingsHelper.MACAddressConnectWidthCharachter(LocalSettingsHelper.GetMacAddress(), '-');
+                    Debug.WriteLine("MAC address:" + macAddress2);
+
                     using (var cmdSearchUser = conn.CreateCommand())
                     {
                         cmdSearchUser.CommandType = CommandType.StoredProcedure;
                         cmdSearchUser.CommandText = "[dbo].[GateLogin]";
                         cmdSearchUser.Parameters.Clear();
-                        cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.Int).Value = Settings.GateId;
+                        cmdSearchUser.Parameters.Add("@GateId", System.Data.SqlDbType.NVarChar).Value = macAddress2;
                         cmdSearchUser.Parameters.Add("@CardData", System.Data.SqlDbType.NVarChar).Value = nfcId;
                         cmdSearchUser.Parameters.Add("@InputCodeData", System.Data.SqlDbType.NVarChar).Value = "";
 
@@ -155,6 +163,7 @@ namespace FirstUwp.Classes
                         Debug.WriteLine("LN LoginId: " + LoginId);
                         Debug.WriteLine("LN isActive: " + isActive);
                         */
+
 
                         user.messageCode = (int)isActive;
                     }

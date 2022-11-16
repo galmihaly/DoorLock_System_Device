@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,6 +34,45 @@ namespace FirstUwp.Helpers
                 localSettings.Values[key] = intValue;
                 return true;
             }
+        }
+
+        public static string GetMacAddress()
+        {
+            string hardwareIdString = "";
+
+            foreach (NetworkInterface nic in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (nic.NetworkInterfaceType == NetworkInterfaceType.Ethernet)
+                {
+                    if (nic.OperationalStatus == OperationalStatus.Up)
+                    {
+                        hardwareIdString += nic.GetPhysicalAddress().ToString();
+                    }
+                }
+            }
+
+
+            if (hardwareIdString.Equals(null)) return null;
+
+            return hardwareIdString;
+        }
+
+        public static string MACAddressConnectWidthCharachter(string _macaddress, char _charachter) 
+        {
+            string seged = "";
+
+            for (int i = 0; i < _macaddress.Length - 2; i += 2)
+            {
+                seged += _macaddress[i];
+                seged += _macaddress[i + 1];
+                seged += _charachter;
+            }
+            seged += _macaddress[_macaddress.Length - 2];
+            seged += _macaddress[_macaddress.Length - 1];
+
+            if(seged == null) return null;
+
+            return seged;
         }
     }
 }
