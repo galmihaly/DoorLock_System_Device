@@ -48,7 +48,6 @@
     - System.Device.Gpio
     - System.IO.Ports
 
-
 ---
 
 <div align="center">
@@ -66,6 +65,12 @@
     <br>
     <img src="FirstUwp/ReadmeImages/devices_relationships.png" alt="DoorLockSystem">
     <p>A beléptető rendszer részei</p>
+</div>
+
+<div align="center">
+    <br>
+    <img src="FirstUwp/ReadmeImages/tables_and_relationships.png" alt="DoorLockSystem">
+    <p>A beléptető rendszer adatbázisa</p>
 </div>
 
 ---
