@@ -120,7 +120,7 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_rfid_reader_and_raspberry.png" alt="DoorLockSystem">
+    <img src="ReadmeImages/device_rfid_and_raspberry.png" alt="DoorLockSystem">
     <p>Az eszköz belseje: Raspberry Pi és RFID olvasó (piros színû)</p>
 </div>
 
