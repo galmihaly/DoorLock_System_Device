@@ -68,6 +68,12 @@
     <p>A beléptetõ rendszer részei</p>
 </div>
 
+<div align="center">
+    <br>
+    <img src="FirstUwp/ReadmeImages/tables_and_relationships.png" alt="DoorLockSystem">
+    <p>A beléptetõ rendszer adatbázisa</p>
+</div>
+
 ---
 
 <div align="center">

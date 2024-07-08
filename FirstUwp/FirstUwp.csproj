@@ -162,6 +162,7 @@
     <Content Include="ReadmeImages\PIN_Code_Version.gif" />
     <Content Include="ReadmeImages\RFID_Card_Version.gif" />
     <Content Include="ReadmeImages\device_sound_sensor.png" />
+    <Content Include="ReadmeImages\tables_and_relationships.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
