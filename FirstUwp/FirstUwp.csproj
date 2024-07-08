@@ -154,7 +154,7 @@
     <Content Include="ReadmeImages\device_project_readme_banner_1500X450.png" />
     <Content Include="ReadmeImages\devices_relationships.png" />
     <Content Include="ReadmeImages\IMG_0338_rotated.gif" />
-    <Content Include="ReadmeImages\IMG_0338_rotated.mp4" />
+    <Content Include="ReadmeImages\IMG_0338_rotated.mov" />
     <Content Include="ReadmeImages\IMG_0339_rotated.gif" />
   </ItemGroup>
   <ItemGroup>
