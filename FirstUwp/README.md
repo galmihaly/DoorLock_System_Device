@@ -74,3 +74,11 @@
     <br>
     <h3>A program mûködése:</h3>
 </div> 
+
+<div align="center">
+    <br>
+    <img src="ReadmeImages/IMG_0338_rotated_giffed_version_2.gif" alt="DoorLockSystem">
+    <p>A beléptetõ rendszer PIN kódos módszere</p>
+</div>
+
+---
