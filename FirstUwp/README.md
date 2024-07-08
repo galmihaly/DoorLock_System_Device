@@ -75,9 +75,5 @@
     <h3>A program mûködése:</h3>
 </div>
 
-<div align="center">
-    <br>
-    <img style="width:1500px" src="ReadmeImages/IMG_0338_rotated.gif" alt="DoorLockSystem">
-    <p>A beléptetõ rendszer részei</p>
-</div>
+<video src="ReadmeImages/IMG_0338_rotated.mp4" alt="DoorLockSystem"></video>
 
