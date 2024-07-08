@@ -34,7 +34,7 @@
 </div>
 
 - A logót, valamint az alkalmazásban megtalálható összes ikont az <b>Adobe Illustrator</b> nevű program segítségével alkottam meg.
-- Az alkalmazás grafikája (logót és design-t egybevéve) nem tartozik egyetlen valós céghez sem, csak a szakdolgozat érdekéken készítettem el.
+- Az program grafikája (logót és design-t egybevéve) nem tartozik egyetlen valós céghez sem, csak a szakdolgozat érdekéken készítettem el.
 
 ---
 
