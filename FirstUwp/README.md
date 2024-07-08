@@ -79,6 +79,7 @@
     - PIN kóddal: a felhasználó hozzá beregisztrált PIN kóddal képes belépni. 
     - RFID kártyával: a felhasználó hozzá beregisztrált RFID kártyájának használatával képes belépni.
 - A módok közt a felhasználó a képernyõn újjával balra-jobbra való húzásával képes váltani.
+- Az adatok hitelesítése közvetlen adatbázis kapcsolat során, tárolt eljárásban történik.
 
 <div align="center">
     <br>
@@ -96,7 +97,7 @@
 
 <div align="center">
     <br>
-    <h3>Az eszköz felépítése:</h3>
+    <h3>Az eszköz felépítése képekben:</h3>
 </div>
 
 <div align="center">
