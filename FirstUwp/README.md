@@ -75,5 +75,6 @@
     <h3>A program mûködése:</h3>
 </div>
 
-https://github.com/galmihaly/DoorLock_System_Device/tree/master/FirstUwp/ReadmeImages/IMG_0338_rotated_reduced_.mov
+
+<video src='ReadmeImages/IMG_0338_rotated_reduced.mov'/>
 
