@@ -153,7 +153,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="ReadmeImages\devices_relationships.png" />
     <Content Include="ReadmeImages\device_project_readme_banner_1500X450.png" />
-    <Content Include="ReadmeImages\IMG_0338_rotated_giffed_version_2.gif" />
+    <Content Include="ReadmeImages\PIN_Code_Version.gif" />
+    <Content Include="ReadmeImages\RFID_Card_Version.gif" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

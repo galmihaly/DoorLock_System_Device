@@ -73,12 +73,23 @@
 <div align="center">
     <br>
     <h3>A program mûködése:</h3>
-</div> 
+</div>
+
+- A program 2 módszer szerint képes mûködni:
+    - PIN kóddal: a felhasználó hozzá beregisztrált PIN kóddal képes belépni. 
+    - RFID kártyával: a felhasználó hozzá beregisztrált RFID kártyájának használatával képes belépni.
+- A módok közt a felhasználó a képernyõn újjával balra-jobbra való húzásával képes váltani.
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/IMG_0338_rotated_giffed_version_2.gif" alt="DoorLockSystem">
+    <img src="ReadmeImages/PIN_Code_Version.gif" alt="DoorLockSystem">
     <p>A beléptetõ rendszer PIN kódos módszere</p>
+</div>
+
+<div align="center">
+    <br>
+    <img src="ReadmeImages/RFID_Card_Version.gif" alt="DoorLockSystem">
+    <p>A beléptetõ rendszer RFID kártyás módszere</p>
 </div>
 
 ---
