@@ -124,6 +124,12 @@
     <p>Az eszköz belseje: Raspberry Pi és RFID olvasó (piros színû)</p>
 </div>
 
+<div align="center">
+    <br>
+    <img src="ReadmeImages/device_sound_sensor.png" alt="DoorLockSystem">
+    <p>Az eszköz belseje: hangszenzor</p>
+</div>
+
 <div align="center" style="transform: rotate(180deg);">
     <br>
     <img src="ReadmeImages/PN532.png" alt="DoorLockSystem">
