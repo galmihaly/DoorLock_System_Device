@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="ReadmeImages/device_project_readme_banner_1500X450.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_project_readme_banner_1500X450.png" alt="DoorLockSystem">
 </div>
 
 <div align="center">
@@ -12,38 +12,38 @@
 ---
 
 <div>
-    <h3>A szakdolgozat témája:</h3>
+    <h3>A szakdolgozat tÃ©mÃ¡ja:</h3>
 </div>
 
-- Egy olyan eszköz tervezése, valamint egy olyan mobilalkalmazás készítése, amely rendszerben mûködve képes kezelni személyek be - és kiléptetését.
-- A szakdolgozat a két programon kívül tartalmaz még egy adatbázist is, ami <b>tárolt eljárások</b> segítségével valósítja meg a két program <b>"Backend"</b> részét.
+- Egy olyan eszkÃ¶z tervezÃ©se, valamint egy olyan mobilalkalmazÃ¡s kÃ©szÃ­tÃ©se, amely rendszerben mÅ±kÃ¶dve kÃ©pes kezelni szemÃ©lyek be - Ã©s kilÃ©ptetÃ©sÃ©t.
+- A szakdolgozat a kÃ©t programon kÃ­vÃ¼l tartalmaz mÃ©g egy adatbÃ¡zist is, ami <b>tÃ¡rolt eljÃ¡rÃ¡sok</b> segÃ­tsÃ©gÃ©vel valÃ³sÃ­tja meg a kÃ©t program <b>"Backend"</b> rÃ©szÃ©t.
 
 ---
 
 <div>
-    <h3>A projekt leírása:</h3>
+    <h3>A projekt leÃ­rÃ¡sa:</h3>
 </div>
 
-- A program C# alapú, UWP-ben lett elkészítve.
-- Kompatibilitási okok miatt Raspberry Pi 3-as verziójára lett megírva a program, emiatt esett a választás a Microsoft UWP platformjára.
+- A program C# alapÃº, UWP-ben lett elkÃ©szÃ­tve.
+- KompatibilitÃ¡si okok miatt Raspberry Pi 3-as verziÃ³jÃ¡ra lett megÃ­rva a program, emiatt esett a vÃ¡lasztÃ¡s a Microsoft UWP platformjÃ¡ra.
 
 ---
 
 <div>
-    <h3>Az eszköz programjának grafikai megjelenése:</h3>
+    <h3>Az eszkÃ¶z programjÃ¡nak grafikai megjelenÃ©se:</h3>
 </div>
 
-- A logót, valamint az alkalmazásban megtalálható összes ikont az <b>Adobe Illustrator</b> nevû program segítségével alkottam meg.
-- Az alkalmazás grafikája (logót és design-t egybevéve) nem tartozik egyetlen valós céghez sem, csak a szakdolgozat érdekéken készítettem el.
+- A logÃ³t, valamint az alkalmazÃ¡sban megtalÃ¡lhatÃ³ Ã¶sszes ikont az <b>Adobe Illustrator</b> nevÅ± program segÃ­tsÃ©gÃ©vel alkottam meg.
+- Az alkalmazÃ¡s grafikÃ¡ja (logÃ³t Ã©s design-t egybevÃ©ve) nem tartozik egyetlen valÃ³s cÃ©ghez sem, csak a szakdolgozat Ã©rdekÃ©ken kÃ©szÃ­tettem el.
 
 ---
 
 <div>
-    <h3>A projekthez felhasznált, C# alapú fõbb osztályok, csomagok:</h3>
+    <h3>A projekthez felhasznÃ¡lt, C# alapÃº fÅ‘bb osztÃ¡lyok, csomagok:</h3>
 </div>
 
 - Framework: UWP (Universal Windows Platform)
-- A Raspberry Pi-hez szükséges csomagok:
+- A Raspberry Pi-hez szÃ¼ksÃ©ges csomagok:
     - Iot.Device.Bindings
     - System.Device.Gpio
     - System.IO.Ports
@@ -53,81 +53,81 @@
 
 <div align="center">
     <br>
-    <h3>A projekt részletes leírása:</h3>
+    <h3>A projekt rÃ©szletes leÃ­rÃ¡sa:</h3>
 </div>
 
-- A projekt 3 fõ részbõl áll:
-    - Adatbázisból, amely az adatokat szolgáltatja az eszköz és a mobilalkalmazás számára.
-    - Az általam elkészített eszközbõl, amely az általam kiválasztott alkatrészekbõl elkészítettem.
-    - Egy mobil alkalmazásból, amely a eszközön történt változásokat (be és kilépéseket) mutatja a bejelentkezett felhasználónak.
-- <b>A további rész az adatbázisról, valamint az eszközrõl való leírást tartalmazza.</b>
+- A projekt 3 fÅ‘ rÃ©szbÅ‘l Ã¡ll:
+    - AdatbÃ¡zisbÃ³l, amely az adatokat szolgÃ¡ltatja az eszkÃ¶z Ã©s a mobilalkalmazÃ¡s szÃ¡mÃ¡ra.
+    - Az Ã¡ltalam elkÃ©szÃ­tett eszkÃ¶zbÅ‘l, amely az Ã¡ltalam kivÃ¡lasztott alkatrÃ©szekbÅ‘l elkÃ©szÃ­tettem.
+    - Egy mobil alkalmazÃ¡sbÃ³l, amely a eszkÃ¶zÃ¶n tÃ¶rtÃ©nt vÃ¡ltozÃ¡sokat (be Ã©s kilÃ©pÃ©seket) mutatja a bejelentkezett felhasznÃ¡lÃ³nak.
+- <b>A tovÃ¡bbi rÃ©sz az adatbÃ¡zisrÃ³l, valamint az eszkÃ¶zrÅ‘l valÃ³ leÃ­rÃ¡st tartalmazza.</b>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/devices_relationships.png" alt="DoorLockSystem">
-    <p>A beléptetõ rendszer részei</p>
+    <p>A belÃ©ptetÅ‘ rendszer rÃ©szei</p>
 </div>
 
 ---
 
 <div align="center">
     <br>
-    <h3>A program mûködése:</h3>
+    <h3>A program mÅ±kÃ¶dÃ©se:</h3>
 </div>
 
-- A program 2 módszer szerint képes mûködni:
-    - PIN kóddal: a felhasználó hozzá beregisztrált PIN kóddal képes belépni. 
-    - RFID kártyával: a felhasználó hozzá beregisztrált RFID kártyájának használatával képes belépni.
-- A módok közt a felhasználó a képernyõn újjával balra-jobbra való húzásával képes váltani.
-- Az adatok hitelesítése közvetlen adatbázis kapcsolat során, tárolt eljárásban történik.
+- A program 2 mÃ³dszer szerint kÃ©pes mÅ±kÃ¶dni:
+    - PIN kÃ³ddal: a felhasznÃ¡lÃ³ hozzÃ¡ beregisztrÃ¡lt PIN kÃ³ddal kÃ©pes belÃ©pni. 
+    - RFID kÃ¡rtyÃ¡val: a felhasznÃ¡lÃ³ hozzÃ¡ beregisztrÃ¡lt RFID kÃ¡rtyÃ¡jÃ¡nak hasznÃ¡latÃ¡val kÃ©pes belÃ©pni.
+- A mÃ³dok kÃ¶zt a felhasznÃ¡lÃ³ a kÃ©pernyÅ‘n ÃºjjÃ¡val balra-jobbra valÃ³ hÃºzÃ¡sÃ¡val kÃ©pes vÃ¡ltani.
+- Az adatok hitelesÃ­tÃ©se kÃ¶zvetlen adatbÃ¡zis kapcsolat sorÃ¡n, tÃ¡rolt eljÃ¡rÃ¡sban tÃ¶rtÃ©nik.
 
 <div align="center">
     <br>
     <img src="ReadmeImages/PIN_Code_Version.gif" alt="DoorLockSystem">
-    <p>A beléptetõ rendszer PIN kódos módszere</p>
+    <p>A belÃ©ptetÅ‘ rendszer PIN kÃ³dos mÃ³dszere</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/RFID_Card_Version.gif" alt="DoorLockSystem">
-    <p>A beléptetõ rendszer RFID kártyás módszere</p>
+    <p>A belÃ©ptetÅ‘ rendszer RFID kÃ¡rtyÃ¡s mÃ³dszere</p>
 </div>
 
 ---
 
 <div align="center">
     <br>
-    <h3>Az eszköz felépítése képekben:</h3>
+    <h3>Az eszkÃ¶z felÃ©pÃ­tÃ©se kÃ©pekben:</h3>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/device_cover_with_display.png" alt="DoorLockSystem">
-    <p>Az eszköz külseje kijelzõvel</p>
+    <p>Az eszkÃ¶z kÃ¼lseje kijelzÅ‘vel</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/device_connectors.png" alt="DoorLockSystem">
-    <p>Az eszköz csatlakozói</p>
+    <p>Az eszkÃ¶z csatlakozÃ³i</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/device_inside.png" alt="DoorLockSystem">
-    <p>Az eszköz belseje: tápegység + csatlakozók kábelei</p>
+    <p>Az eszkÃ¶z belseje: tÃ¡pegysÃ©g + csatlakozÃ³k kÃ¡belei</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/device_rfid_and_raspberry.png" alt="DoorLockSystem">
-    <p>Az eszköz belseje: Raspberry Pi és RFID olvasó (piros színû)</p>
+    <p>Az eszkÃ¶z belseje: Raspberry Pi Ã©s RFID olvasÃ³ (piros szÃ­nÅ±)</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/device_sound_sensor.png" alt="DoorLockSystem">
-    <p>Az eszköz belseje: hangszenzor</p>
+    <p>Az eszkÃ¶z belseje: hangszenzor</p>
 </div>
 
 <div align="center" style="transform: rotate(180deg);">
@@ -136,12 +136,12 @@
 </div>
 
 <div align="center">
-    <p>PN532-es chippel rendelkezõ RFID olvasó</p>
+    <p>PN532-es chippel rendelkezÅ‘ RFID olvasÃ³</p>
 </div>
 
 <div align="center">
     <br>
     <img src="ReadmeImages/RFID_SPI.jpg" alt="DoorLockSystem">
-    <p>Raspberry Pi és RFID olvasó közti összeköttetés: SPI kapcsolat</p>
+    <p>Raspberry Pi Ã©s RFID olvasÃ³ kÃ¶zti Ã¶sszekÃ¶ttetÃ©s: SPI kapcsolat</p>
 </div>
 
