@@ -151,11 +151,6 @@
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-24_altform-unplated.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
-    <Content Include="ReadmeImages\device_project_readme_banner_1500X450.png" />
-    <Content Include="ReadmeImages\devices_relationships.png" />
-    <Content Include="ReadmeImages\IMG_0338_rotated.gif" />
-    <Content Include="ReadmeImages\IMG_0338_rotated_reduced.mov" />
-    <Content Include="ReadmeImages\IMG_0339_rotated.gif" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
