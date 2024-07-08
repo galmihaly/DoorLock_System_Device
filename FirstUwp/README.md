@@ -75,5 +75,5 @@
     <h3>A program mûködése:</h3>
 </div>
 
-<video src="ReadmeImages/IMG_0338_rotated.mp4" alt="DoorLockSystem"></video>
+https://github.com/complexorganizations/wireguard-manager/assets/102563715/dd539835-2c30-4146-b4f8-940329aa6070
 
