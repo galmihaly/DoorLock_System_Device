@@ -1,5 +1,5 @@
 <div align="center">
-    <img src="ReadmeImages/device_project_readme_banner_1500X450.png" alt="AudioShop Logo">
+    <img src="ReadmeImages/device_project_readme_banner_1500X450.png" alt="DoorLockSystem">
 </div>
 
 <div align="center">
@@ -64,7 +64,7 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/devices_relationships.png" alt="AudioShop Logo">
+    <img src="ReadmeImages/devices_relationships.png" alt="DoorLockSystem">
     <p>A beléptetõ rendszer részei</p>
 </div>
 
@@ -77,7 +77,7 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/IMG_0338_rotated.gif" alt="AudioShop Logo">
+    <img style="width:1500px" src="ReadmeImages/IMG_0338_rotated.gif" alt="DoorLockSystem">
     <p>A beléptetõ rendszer részei</p>
 </div>
 
