@@ -64,7 +64,7 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/devices_relationships.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/devices_relationships.png" alt="DoorLockSystem">
     <p>A beléptető rendszer részei</p>
 </div>
 
@@ -83,13 +83,13 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/PIN_Code_Version.gif" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/PIN_Code_Version.gif" alt="DoorLockSystem">
     <p>A beléptető rendszer PIN kódos módszere</p>
 </div>
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/RFID_Card_Version.gif" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/RFID_Card_Version.gif" alt="DoorLockSystem">
     <p>A beléptető rendszer RFID kártyás módszere</p>
 </div>
 
@@ -102,37 +102,37 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_cover_with_display.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_cover_with_display.png" alt="DoorLockSystem">
     <p>Az eszköz külseje kijelzővel</p>
 </div>
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_connectors.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_connectors.png" alt="DoorLockSystem">
     <p>Az eszköz csatlakozói</p>
 </div>
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_inside.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_inside.png" alt="DoorLockSystem">
     <p>Az eszköz belseje: tápegység + csatlakozók kábelei</p>
 </div>
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_rfid_and_raspberry.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_rfid_and_raspberry.png" alt="DoorLockSystem">
     <p>Az eszköz belseje: Raspberry Pi és RFID olvasó (piros színű)</p>
 </div>
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/device_sound_sensor.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/device_sound_sensor.png" alt="DoorLockSystem">
     <p>Az eszköz belseje: hangszenzor</p>
 </div>
 
 <div align="center" style="transform: rotate(180deg);">
     <br>
-    <img src="ReadmeImages/PN532.png" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/PN532.png" alt="DoorLockSystem">
 </div>
 
 <div align="center">
@@ -141,7 +141,7 @@
 
 <div align="center">
     <br>
-    <img src="ReadmeImages/RFID_SPI.jpg" alt="DoorLockSystem">
+    <img src="FirstUwp/ReadmeImages/RFID_SPI.jpg" alt="DoorLockSystem">
     <p>Raspberry Pi és RFID olvasó közti összeköttetés: SPI kapcsolat</p>
 </div>
 
